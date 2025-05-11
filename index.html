@@ -30,16 +30,16 @@
       font-size: 16px;
     }
 
-    #filtros {
+    #busca {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      padding: 10px 20px;
+      margin: 15px;
     }
 
-    #filtros input, #filtros select {
-      padding: 8px;
+    #busca input {
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
       border-radius: 5px;
       border: none;
       font-size: 16px;
@@ -96,23 +96,8 @@
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <div id="filtros">
-    <input type="text" id="busca" placeholder="Buscar por nome ou descrição..." oninput="filtrarProdutos()" />
-    <select id="filtroCategoria" onchange="filtrarProdutos()">
-      <option value="">Todas as Categorias</option>
-      <option value="tv">TV</option>
-      <option value="geladeira">Geladeira</option>
-      <option value="lavadora">Lavadora</option>
-      <option value="fogão">Fogão</option>
-      <option value="micro">Micro-ondas</option>
-      <option value="ferramenta">Ferramenta</option>
-      <option value="ar">Ar-condicionado</option>
-    </select>
-    <select id="filtroClassificacao" onchange="filtrarProdutos()">
-      <option value="">Todas as Classificações</option>
-      <option value="a">Classificação A</option>
-      <option value="b">Classificação B</option>
-    </select>
+  <div id="busca">
+    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
   </div>
 
   <div id="produtos">
@@ -124,7 +109,7 @@
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyT2-g0UkzWn0ffo5W7PX7-IYvfnrxQzl3e6100Mv_b_LsTbucFq03xsovNJ4aUBw/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbyT2-g0UkzWn0ffo5W7PX7-IYvfnrxQzl3e6100Mv_b_LsTbucFq03xsovNJ4aUBw/exec"; // Substitua pelo seu
 
     async function carregarProdutos() {
       try {
@@ -137,21 +122,11 @@
       }
     }
 
-    function filtrarProdutos() {
-      const termo = document.getElementById("busca").value.toLowerCase();
-      const categoria = document.getElementById("filtroCategoria").value.toLowerCase();
-      const classificacao = document.getElementById("filtroClassificacao").value.toLowerCase();
-
+    function filtrarProdutos(termo) {
+      termo = termo.toLowerCase();
       document.querySelectorAll(".produto").forEach(produto => {
         const texto = produto.innerText.toLowerCase();
-        const cat = produto.getAttribute("data-categoria") || "";
-        const classe = (produto.querySelector(".classificacao")?.textContent || "").toLowerCase();
-
-        const exibir = texto.includes(termo) &&
-                       (categoria === "" || cat === categoria) &&
-                       (classificacao === "" || classe.includes(classificacao));
-
-        produto.style.display = exibir ? "block" : "none";
+        produto.style.display = texto.includes(termo) ? "block" : "none";
       });
     }
 
