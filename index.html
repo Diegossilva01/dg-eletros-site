@@ -30,6 +30,21 @@
       font-size: 16px;
     }
 
+    .busca {
+      padding: 15px;
+      background-color: #000;
+      text-align: center;
+    }
+
+    .busca input {
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+
     #produtos {
       display: flex;
       flex-wrap: wrap;
@@ -81,6 +96,10 @@
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
+  <div class="busca">
+    <input type="text" id="campoBusca" placeholder="Buscar produtos..." oninput="filtrarProdutos()" />
+  </div>
+
   <div id="produtos">
     <p>Carregando produtos...</p>
   </div>
@@ -91,15 +110,39 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyJxmya_2_iaxOkoJSLf9y43eqSXFUor6HhdF5P4po3Ki9xkFPSvjLB_RCjr0fFtiyb/exec";
+    let htmlCompleto = "";
 
     async function carregarProdutos() {
       try {
         const resposta = await fetch(API_URL);
-        const html = await resposta.text();
-        document.getElementById("produtos").innerHTML = html;
+        htmlCompleto = await resposta.text();
+        document.getElementById("produtos").innerHTML = htmlCompleto;
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
+      }
+    }
+
+    function filtrarProdutos() {
+      const termo = document.getElementById("campoBusca").value.toLowerCase();
+      const container = document.createElement("div");
+      container.innerHTML = htmlCompleto;
+
+      const produtos = container.querySelectorAll(".produto");
+      produtos.forEach(prod => {
+        const nome = prod.querySelector("h3")?.textContent.toLowerCase() || "";
+        prod.style.display = nome.includes(termo) ? "block" : "none";
+      });
+
+      document.getElementById("produtos").innerHTML = "";
+      produtos.forEach(prod => {
+        if (prod.style.display === "block") {
+          document.getElementById("produtos").appendChild(prod);
+        }
+      });
+
+      if (document.getElementById("produtos").innerHTML.trim() === "") {
+        document.getElementById("produtos").innerHTML = "<p>Nenhum produto encontrado.</p>";
       }
     }
 
