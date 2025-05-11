@@ -54,6 +54,31 @@
       border: none;
     }
 
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      background-color: #1a1a1a;
+      padding: 10px 20px;
+    }
+
+    .filtros button {
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .filtros button:hover,
+    .filtros button.ativo {
+      background-color: #f4a300;
+      color: #000;
+    }
+
     #produtos {
       display: flex;
       flex-wrap: wrap;
@@ -172,6 +197,16 @@
     <input type="text" id="campoBusca" placeholder="Buscar produtos..." oninput="filtrarProdutos()" />
   </div>
 
+  <div class="filtros">
+    <button onclick="filtrarCategoria('Todos')" class="ativo">Todos</button>
+    <button onclick="filtrarCategoria('Geladeira')">Geladeiras</button>
+    <button onclick="filtrarCategoria('Lavadora')">Lavadoras</button>
+    <button onclick="filtrarCategoria('Fogão')">Fogões</button>
+    <button onclick="filtrarCategoria('Micro-ondas')">Micro-ondas</button>
+    <button onclick="filtrarCategoria('Ferramenta')">Ferramentas</button>
+    <button onclick="filtrarCategoria('Ar-condicionado')">Ar-condicionado</button>
+  </div>
+
   <div id="produtos">
     <p>Carregando produtos...</p>
   </div>
@@ -196,7 +231,6 @@
         const resposta = await fetch(API_URL);
         htmlCompleto = await resposta.text();
 
-        // Substituir a classificação com ícone visual
         const container = document.createElement("div");
         container.innerHTML = htmlCompleto;
 
@@ -211,7 +245,6 @@
         });
 
         document.getElementById("produtos").innerHTML = container.innerHTML;
-
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
@@ -239,6 +272,29 @@
       if (document.getElementById("produtos").innerHTML.trim() === "") {
         document.getElementById("produtos").innerHTML = "<p>Nenhum produto encontrado.</p>";
       }
+    }
+
+    function filtrarCategoria(categoria) {
+      const botoes = document.querySelectorAll(".filtros button");
+      botoes.forEach(btn => btn.classList.remove("ativo"));
+
+      event.target.classList.add("ativo");
+      const termo = categoria.toLowerCase();
+      const container = document.createElement("div");
+      container.innerHTML = htmlCompleto;
+
+      const produtos = container.querySelectorAll(".produto");
+      produtos.forEach(prod => {
+        const nome = prod.querySelector("h3")?.textContent.toLowerCase() || "";
+        prod.style.display = termo === 'todos' || nome.includes(termo) ? "block" : "none";
+      });
+
+      document.getElementById("produtos").innerHTML = "";
+      produtos.forEach(prod => {
+        if (prod.style.display === "block") {
+          document.getElementById("produtos").appendChild(prod);
+        }
+      });
     }
 
     carregarProdutos();
