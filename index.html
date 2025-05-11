@@ -1,107 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DG Eletros - Catálogo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DG Eletros</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background-color: #111;
       color: #fff;
-      margin: 0;
-      padding: 0;
     }
+
     header {
       background-color: #f4a300;
       color: #000;
-      padding: 20px;
       text-align: center;
+      padding: 20px 10px;
     }
-    .produtos {
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 1em;
+    }
+
+    #produtos {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 20px;
     }
+
     .produto {
       background-color: #222;
-      border: 1px solid #444;
-      border-radius: 8px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
       margin: 10px;
-      padding: 16px;
-      width: 250px;
+      padding: 15px;
+      width: 280px;
       text-align: center;
-      box-shadow: 0 0 10px #000;
     }
+
     .produto img {
-      max-width: 100%;
+      width: 100%;
       height: auto;
-      border-radius: 4px;
+      border-radius: 8px;
     }
+
     .produto h3 {
       color: #f4a300;
-      margin-bottom: 8px;
+      margin-top: 10px;
     }
-    .produto .classificacao.a {
-      color: #0f0;
-    }
-    .produto .classificacao.b {
-      color: #ff0;
-    }
-    .produto p {
-      margin: 8px 0;
-    }
+
     .produto a {
       display: inline-block;
       margin-top: 10px;
       padding: 10px 15px;
-      background-color: #25D366;
-      color: #fff;
+      background-color: #25d366;
+      color: white;
       text-decoration: none;
-      border-radius: 4px;
+      border-radius: 5px;
+    }
+
+    .produto .classificacao {
+      display: block;
+      margin: 5px 0;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .produto {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
+
   <header>
     <h1>DG Eletros</h1>
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <section class="produtos">
-    <p>Carregando produtos...</p>
-  </section>
+  <div id="produtos">Carregando produtos...</div>
 
   <script>
-    const sheetID = '1--BfpqS5o7Cb2QZ4J2wRGhAKEj_NbYIZbbdra38Wws';
-    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+    const sheetID = "1--BfpqS5o7Cb2QZ4J2wRGhAKEj_NbYlZbbdra38Wws";
+    const sheetName = "Página1"; // Altere se o nome da aba for diferente
+    const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
-    fetch(sheetURL)
-      .then(res => res.text())
-      .then(text => {
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-        const container = document.querySelector('.produtos');
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('produtos');
         container.innerHTML = '';
-
-        rows.slice(1).forEach(row => {
-          const dados = row.c.map(cell => cell?.v || '');
-          const [nome, preco, classificacao, descricao, imagem, whatsapp] = dados;
-          const classe = classificacao.toLowerCase();
-
+        data.forEach(prod => {
+          const className = prod["Classificação"]?.toLowerCase() || '';
           container.innerHTML += `
-            <div class="produto">
-              <img src="${imagem}" alt="${nome}">
-              <h3>${nome}</h3>
-              <p>${preco}</p>
-              <span class="classificacao ${classe}">Classificação ${classificacao}</span>
-              <p>${descricao}</p>
-              <a href="${whatsapp}" target="_blank">Falar no WhatsApp</a>
+            <div class="produto ${className}">
+              <img src="${prod["Link da Imagem"]}" alt="${prod["Nome do Produto"]}">
+              <h3>${prod["Nome do Produto"]}</h3>
+              <p>R$ ${prod["Preço"]}</p>
+              <span class="classificacao">Classificação ${prod["Classificação"]}</span>
+              <p>${prod["Descrição"]}</p>
+              <a href="${prod["Link do WhatsApp"]}" target="_blank">Falar no WhatsApp</a>
             </div>
           `;
         });
+      })
+      .catch(err => {
+        document.getElementById('produtos').innerHTML = "Erro ao carregar produtos.";
+        console.error(err);
       });
   </script>
+
 </body>
 </html>
