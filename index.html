@@ -10,72 +10,39 @@
       background-color: #111;
       color: white;
       margin: 0;
+      padding: 0;
     }
 
     header {
       background-color: #f4a300;
+      color: black;
       text-align: center;
-      padding: 30px 10px 20px;
-      color: #111;
+      padding: 20px 10px;
     }
 
-    header .logo {
-      font-size: 40px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-    header .logo-destaque {
-      color: #000;
-      background: #fff;
-      padding: 5px 10px;
-      border-radius: 6px;
+    header h1 {
+      margin: 0;
+      font-size: 32px;
     }
 
     header p {
-      margin-top: 10px;
-      font-size: 15px;
-      color: #111;
-    }
-
-    .busca {
-      padding: 15px;
-      background-color: #000;
-      text-align: center;
-    }
-
-    .busca input {
-      padding: 10px;
-      width: 90%;
-      max-width: 400px;
+      margin: 5px 0 0;
       font-size: 16px;
-      border-radius: 5px;
-      border: none;
     }
 
-    .filtros {
+    #busca {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      background-color: #1a1a1a;
-      padding: 10px 20px;
+      margin: 15px;
     }
 
-    .filtros button {
-      background-color: #333;
-      color: white;
-      border: none;
-      padding: 8px 15px;
+    #busca input {
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
       border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .filtros button:hover,
-    .filtros button.ativo {
-      background-color: #f4a300;
-      color: #000;
+      border: none;
+      font-size: 16px;
     }
 
     #produtos {
@@ -92,7 +59,6 @@
       padding: 15px;
       width: 300px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      text-align: center;
     }
 
     .produto img {
@@ -112,67 +78,7 @@
     }
 
     .classificacao {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       font-weight: bold;
-      margin-top: 5px;
-    }
-
-    .icone-A {
-      background-color: #00cc66;
-      color: white;
-      font-weight: bold;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-    }
-
-    .icone-B {
-      background-color: #ffc107;
-      color: black;
-      font-weight: bold;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-    }
-
-    .produto a {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 15px;
-      background-color: #25d366;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .explicacao {
-      background-color: #1a1a1a;
-      padding: 30px 20px;
-      text-align: center;
-      margin-top: 40px;
-      border-top: 2px solid #f4a300;
-    }
-
-    .explicacao h2 {
-      color: #f4a300;
-      margin-bottom: 10px;
-    }
-
-    .explicacao p {
-      max-width: 700px;
-      margin: 0 auto 10px;
-      line-height: 1.5;
     }
 
     footer {
@@ -180,43 +86,23 @@
       text-align: center;
       color: gray;
       padding: 15px;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="logo">
-      DG <span class="logo-destaque">ELETROS</span>
-    </div>
+    <h1>DG Eletros</h1>
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <div class="busca">
-    <input type="text" id="campoBusca" placeholder="Buscar produtos..." oninput="filtrarProdutos()" />
-  </div>
-
-  <div class="filtros">
-    <button onclick="filtrarCategoria('todos')" class="ativo">Todos</button>
-    <button onclick="filtrarCategoria('geladeira')">Geladeiras</button>
-    <button onclick="filtrarCategoria('lavadora')">Lavadoras</button>
-    <button onclick="filtrarCategoria('fogão')">Fogões</button>
-    <button onclick="filtrarCategoria('micro')">Micro-ondas</button>
-    <button onclick="filtrarCategoria('ferramenta')">Ferramentas</button>
-    <button onclick="filtrarCategoria('ar')">Ar</button>
-    <button onclick="filtrarCategoria('tv')">TV</button>
+  <div id="busca">
+    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
   </div>
 
   <div id="produtos">
     <p>Carregando produtos...</p>
   </div>
-
-  <section class="explicacao">
-    <h2>Classificação dos Produtos</h2>
-    <p><strong>Classificação A:</strong> Produtos novos ou seminovos em excelente estado, funcionando perfeitamente e com aparência impecável.</p>
-    <p><strong>Classificação B:</strong> Produtos com pequenas avarias estéticas (riscos, amassados leves), mas com funcionamento 100% garantido.</p>
-    <p>Todos os itens possuem garantia e passam por revisão antes da entrega.</p>
-  </section>
 
   <footer>
     © 2025 DG Eletros
@@ -224,76 +110,49 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyJxmya_2_iaxOkoJSLf9y43eqSXFUor6HhdF5P4po3Ki9xkFPSvjLB_RCjr0fFtiyb/exec";
-    let htmlCompleto = "";
 
     async function carregarProdutos() {
       try {
         const resposta = await fetch(API_URL);
-        htmlCompleto = await resposta.text();
-
-        const container = document.createElement("div");
-        container.innerHTML = htmlCompleto;
+        const html = await resposta.text();
+        const container = document.getElementById("produtos");
+        container.innerHTML = html;
 
         const produtos = container.querySelectorAll(".produto");
+
         produtos.forEach(prod => {
-          const span = prod.querySelector(".classificacao");
-          if (span && span.textContent.includes("A")) {
-            span.innerHTML = `<span class="icone-A">A</span> Classificação A`;
-          } else if (span && span.textContent.includes("B")) {
-            span.innerHTML = `<span class="icone-B">B</span> Classificação B`;
+          const img = prod.querySelector("img");
+          const textoProduto = prod.innerText.toLowerCase();
+          
+          const categorias = ["geladeira", "lavadora", "fogão", "micro", "ferramenta", "ar", "tv"];
+          const categoria = categorias.find(cat => textoProduto.includes(cat)) || "";
+
+          const imagemPadrao = {
+            "geladeira": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
+            "lavadora": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
+            "fogão": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
+            "micro": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
+            "ferramenta": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
+            "ar": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
+            "tv": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png"
+          };
+
+          if (!img.src || img.src.includes("undefined") || img.src === window.location.href) {
+            img.src = imagemPadrao[categoria] || "https://via.placeholder.com/300x200?text=Produto";
           }
         });
 
-        document.getElementById("produtos").innerHTML = container.innerHTML;
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
       }
     }
 
-    function filtrarProdutos() {
-      const termo = document.getElementById("campoBusca").value.toLowerCase();
-      const container = document.createElement("div");
-      container.innerHTML = htmlCompleto;
-
-      const produtos = container.querySelectorAll(".produto");
-      produtos.forEach(prod => {
-        const nome = prod.querySelector("h3")?.textContent.toLowerCase() || "";
-        prod.style.display = nome.includes(termo) ? "block" : "none";
-      });
-
-      document.getElementById("produtos").innerHTML = "";
-      produtos.forEach(prod => {
-        if (prod.style.display === "block") {
-          document.getElementById("produtos").appendChild(prod);
-        }
-      });
-
-      if (document.getElementById("produtos").innerHTML.trim() === "") {
-        document.getElementById("produtos").innerHTML = "<p>Nenhum produto encontrado.</p>";
-      }
-    }
-
-    function filtrarCategoria(categoria) {
-      const botoes = document.querySelectorAll(".filtros button");
-      botoes.forEach(btn => btn.classList.remove("ativo"));
-      event.target.classList.add("ativo");
-
-      const termo = categoria.toLowerCase();
-      const container = document.createElement("div");
-      container.innerHTML = htmlCompleto;
-
-      const produtos = container.querySelectorAll(".produto");
-      produtos.forEach(prod => {
-        const cat = prod.getAttribute("data-categoria") || "";
-        prod.style.display = (termo === 'todos' || cat.includes(termo)) ? "block" : "none";
-      });
-
-      document.getElementById("produtos").innerHTML = "";
-      produtos.forEach(prod => {
-        if (prod.style.display === "block") {
-          document.getElementById("produtos").appendChild(prod);
-        }
+    function filtrarProdutos(termo) {
+      termo = termo.toLowerCase();
+      document.querySelectorAll(".produto").forEach(produto => {
+        const texto = produto.innerText.toLowerCase();
+        produto.style.display = texto.includes(termo) ? "block" : "none";
       });
     }
 
