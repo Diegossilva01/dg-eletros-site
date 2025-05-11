@@ -115,33 +115,7 @@
       try {
         const resposta = await fetch(API_URL);
         const html = await resposta.text();
-        const container = document.getElementById("produtos");
-        container.innerHTML = html;
-
-        const produtos = container.querySelectorAll(".produto");
-
-        produtos.forEach(prod => {
-          const img = prod.querySelector("img");
-          const textoProduto = prod.innerText.toLowerCase();
-          
-          const categorias = ["geladeira", "lavadora", "fogão", "micro", "ferramenta", "ar", "tv"];
-          const categoria = categorias.find(cat => textoProduto.includes(cat)) || "";
-
-          const imagemPadrao = {
-            "geladeira": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
-            "lavadora": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
-            "fogão": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
-            "micro": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
-            "ferramenta": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
-            "ar": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png",
-            "tv": "https://raw.githubusercontent.com/Diegossilva01/dg-eletros-site/main/IMG_7025.png"
-          };
-
-          if (!img.src || img.src.includes("undefined") || img.src === window.location.href) {
-            img.src = imagemPadrao[categoria] || "https://via.placeholder.com/300x200?text=Produto";
-          }
-        });
-
+        document.getElementById("produtos").innerHTML = html;
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
