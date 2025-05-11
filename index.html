@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DG Eletros</title>
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     * {
       box-sizing: border-box;
@@ -101,6 +103,49 @@
       color: #4caf50;
     }
 
+    section#classificacao-info {
+      background-color: #1a1a1a;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    #classificacao-info h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #f4a300;
+    }
+
+    #classificacao-info p {
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 25px;
+    }
+
+    .class-lista {
+      display: grid;
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .class-item {
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #fff;
+      color: #000;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .class-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
     footer {
       background-color: #111;
       text-align: center;
@@ -123,6 +168,30 @@
   <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
+
+  <!-- Classificação dos Produtos -->
+  <section id="classificacao-info">
+    <h2><i class="fas fa-tags"></i> Classificação dos Produtos</h2>
+    <p>Entenda como avaliamos os produtos vendidos na DG Eletros:</p>
+    <div class="class-lista">
+      <div class="class-item">
+        <i class="fas fa-star" style="margin-right:10px;color:#4caf50;"></i>
+        <strong>NOVO:</strong> Produto 100% novo, com nota e garantia.
+      </div>
+      <div class="class-item">
+        <i class="fas fa-thumbs-up" style="margin-right:10px;color:#2196f3;"></i>
+        <strong>CLASSE A:</strong> Produto novo ou seminovo com pequenas avarias estéticas (sem afetar o uso).
+      </div>
+      <div class="class-item">
+        <i class="fas fa-exclamation-circle" style="margin-right:10px;color:#ff9800;"></i>
+        <strong>CLASSE B:</strong> Produto com marcas visíveis ou leves danos, mas em pleno funcionamento.
+      </div>
+      <div class="class-item">
+        <i class="fas fa-tools" style="margin-right:10px;color:#f44336;"></i>
+        <strong>CLASSE C:</strong> Produto com defeitos funcionais ou incompleto — ideal para conserto ou reposição.
+      </div>
+    </div>
+  </section>
 
   <footer>
     © 2025 DG Eletros — Todos os direitos reservados
