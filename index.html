@@ -10,7 +10,6 @@
       background-color: #111;
       color: white;
       margin: 0;
-      padding: 0;
     }
 
     header {
@@ -198,13 +197,13 @@
   </div>
 
   <div class="filtros">
-    <button onclick="filtrarCategoria('Todos')" class="ativo">Todos</button>
-    <button onclick="filtrarCategoria('Geladeira')">Geladeiras</button>
-    <button onclick="filtrarCategoria('Lavadora')">Lavadoras</button>
-    <button onclick="filtrarCategoria('Fogão')">Fogões</button>
-    <button onclick="filtrarCategoria('Micro-ondas')">Micro-ondas</button>
-    <button onclick="filtrarCategoria('Ferramenta')">Ferramentas</button>
-    <button onclick="filtrarCategoria('Ar-condicionado')">Ar-condicionado</button>
+    <button onclick="filtrarCategoria('todos')" class="ativo">Todos</button>
+    <button onclick="filtrarCategoria('geladeira')">Geladeiras</button>
+    <button onclick="filtrarCategoria('lavadora')">Lavadoras</button>
+    <button onclick="filtrarCategoria('fogão')">Fogões</button>
+    <button onclick="filtrarCategoria('micro-ondas')">Micro-ondas</button>
+    <button onclick="filtrarCategoria('ferramenta')">Ferramentas</button>
+    <button onclick="filtrarCategoria('ar-condicionado')">Ar-condicionado</button>
   </div>
 
   <div id="produtos">
@@ -277,16 +276,15 @@
     function filtrarCategoria(categoria) {
       const botoes = document.querySelectorAll(".filtros button");
       botoes.forEach(btn => btn.classList.remove("ativo"));
-
       event.target.classList.add("ativo");
-      const termo = categoria.toLowerCase();
+
       const container = document.createElement("div");
       container.innerHTML = htmlCompleto;
 
       const produtos = container.querySelectorAll(".produto");
       produtos.forEach(prod => {
-        const nome = prod.querySelector("h3")?.textContent.toLowerCase() || "";
-        prod.style.display = termo === 'todos' || nome.includes(termo) ? "block" : "none";
+        const cat = prod.getAttribute("data-categoria") || "";
+        prod.style.display = (categoria === 'todos' || cat === categoria) ? "block" : "none";
       });
 
       document.getElementById("produtos").innerHTML = "";
