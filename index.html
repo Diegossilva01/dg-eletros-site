@@ -2,9 +2,78 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DG Eletros</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #f4a300;
+      color: black;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 16px;
+    }
+
+    #produtos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .produto {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      padding: 15px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .produto img {
+      max-width: 100%;
+      border-radius: 5px;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .produto h3 {
+      color: #f4a300;
+      font-size: 20px;
+    }
+
+    .produto p {
+      margin: 5px 0;
+    }
+
+    .classificacao {
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #111;
+      text-align: center;
+      color: gray;
+      padding: 15px;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -12,25 +81,29 @@
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <main>
-    <section id="produtos">
-      <p>Carregando produtos...</p>
-    </section>
-  </main>
+  <div id="produtos">
+    <p>Carregando produtos...</p>
+  </div>
 
   <footer>
-    <p>&copy; 2025 DG Eletros</p>
+    © 2025 DG Eletros
   </footer>
 
   <script>
-    fetch('https://script.google.com/macros/s/AKfycbJxmya_2_iaxOkoJSLf9y43eqSXFUor6HhdF5P4po3Ki9xkFPSvjLB_RCjr0fFtiyb/exec')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('produtos').innerHTML = data;
-      })
-      .catch(err => {
-        document.getElementById('produtos').innerHTML = '<p>Erro ao carregar produtos.</p>';
-      });
+    const API_URL = "https://script.google.com/macros/s/AKfycbyJxmya_2_iaxOkoJSLf9y43eqSXFUor6HhdF5P4po3Ki9xkFPSvjLB_RCjr0fFtiyb/exec";
+
+    async function carregarProdutos() {
+      try {
+        const resposta = await fetch(API_URL);
+        const html = await resposta.text();
+        document.getElementById("produtos").innerHTML = html;
+      } catch (erro) {
+        document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
+        console.error("Erro:", erro);
+      }
+    }
+
+    carregarProdutos();
   </script>
 </body>
 </html>
