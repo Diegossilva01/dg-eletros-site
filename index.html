@@ -3,44 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DG Eletros</title>
+  <title>DG Eletros - Loja de Saldão</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <header>
-    <!-- Logo da loja -->
-    <img src="https://i.imgur.com/9MyI3cT.png" alt="DG Eletros Logo" />
-    <h1>DG Eletros</h1>
-    <p>Produtos com garantia | Novos e com pequenas avarias</p>
+    <h1 style="color:#f7931e;">DG Eletros</h1>
+    <p style="color:#ccc;">Loja de Saldão de Eletrodomésticos</p>
   </header>
 
-  <section>
-    <h2>Catálogo de Produtos</h2>
+  <div class="busca" style="display:flex; justify-content:center; margin:20px;">
+    <input type="text" placeholder="O que você procura?" style="width:80%; padding:12px; border-radius:8px 0 0 8px; border:none; outline:none;">
+    <button style="padding:12px; background-color:#f7931e; color:white; border:none; border-radius:0 8px 8px 0;">Buscar</button>
+  </div>
 
-    <div class="produto">
-      <h3>Geladeira Electrolux 410L</h3>
-      <p>R$ 2.499,00 – Condição: <strong>A</strong></p>
-      <p>Impecável. Funcionamento 100%.</p>
-      <a href="https://wa.me/5511977030517?text=Olá,%20tenho%20interesse%20na%20Geladeira%20Electrolux%20410L" target="_blank">
-        Falar no WhatsApp
-      </a>
+  <div class="banner" style="background:linear-gradient(135deg, #f7931e, #d46d00); color:white; padding:40px 20px; text-align:center;">
+    <h2>As Melhores Ofertas da Semana Estão Aqui!</h2>
+  </div>
+
+  <section class="categorias" style="display:flex; flex-wrap:wrap; justify-content:space-around; padding:20px;">
+    <div class="categoria" style="background-color:#1e1e1e; border:1px solid #333; border-radius:8px; width:45%; margin:10px 0; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <h3 style="color:#f7931e;">Máquinas de Lavar</h3>
+      <p>Até 20% de desconto</p>
     </div>
-
-    <div class="produto">
-      <h3>Máquina de Lavar Brastemp 12kg</h3>
-      <p>R$ 1.799,00 – Condição: <strong>B</strong></p>
-      <p>Tampa com trinca, funcionamento perfeito.</p>
-      <a href="https://wa.me/5511977030517?text=Olá,%20tenho%20interesse%20na%20Máquina%20de%20Lavar%20Brastemp%2012kg" target="_blank">
-        Falar no WhatsApp
-      </a>
+    <div class="categoria" style="background-color:#1e1e1e; border:1px solid #333; border-radius:8px; width:45%; margin:10px 0; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <h3 style="color:#f7931e;">Geladeiras</h3>
+      <p>Parcelamento sem juros</p>
     </div>
-
+    <div class="categoria" style="background-color:#1e1e1e; border:1px solid #333; border-radius:8px; width:45%; margin:10px 0; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <h3 style="color:#f7931e;">Fogões</h3>
+      <p>Com pequenas avarias</p>
+    </div>
+    <div class="categoria" style="background-color:#1e1e1e; border:1px solid #333; border-radius:8px; width:45%; margin:10px 0; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <h3 style="color:#f7931e;">Micro-ondas</h3>
+      <p>Garantia de 90 dias</p>
+    </div>
   </section>
 
-  <footer>
+  <section class="produtos" style="padding: 20px;">
+    <h2 style="text-align:center; color:#f7931e;">Produtos em Destaque</h2>
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-around;">
+      <div style="background:#1e1e1e; border:1px solid #333; border-radius:8px; width:45%; margin:10px 0; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+        <img src="https://via.placeholder.com/300x200?text=Geladeira" style="width:100%; border-radius:8px;" alt="Geladeira Electrolux">
+        <h3 style="color:#f7931e;">Geladeira Electrolux 410L</h3>
+        <p>R$ 2.499,00 – Condição: <strong>A</strong></p>
+        <a href="https://wa.me/5511977030517?text=Tenho%20interesse%20na%20geladeira" target="_blank" style="display:inline-block; margin-top:10px; padding:10px 16px; background-color:#25d366; color:#fff; text-decoration:none; border-radius:5px; font-weight:bold;">Falar no WhatsApp</a>
+      </div>
+      <div style="background:#1e1e1e; border:1px solid #333; border-radius:8px; width:45%; margin:10px 0; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+        <img src="https://via.placeholder.com/300x200?text=Lavadora" style="width:100%; border-radius:8px;" alt="Lavadora Brastemp">
+        <h3 style="color:#f7931e;">Máquina de Lavar Brastemp 12kg</h3>
+        <p>R$ 1.799,00 – Condição: <strong>B</strong></p>
+        <a href="https://wa.me/5511977030517?text=Tenho%20interesse%20na%20lavadora" target="_blank" style="display:inline-block; margin-top:10px; padding:10px 16px; background-color:#25d366; color:#fff; text-decoration:none; border-radius:5px; font-weight:bold;">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background-color:#1f1f1f; color:#999; text-align:center; padding:20px; font-size:14px;">
     Rua Afonso Vidal, 264 – São Paulo/SP<br>
-    Atendimento via WhatsApp: (11) 97703-0517
+    WhatsApp: (11) 97703-0517 | Instagram: @dg_eletros
   </footer>
 
 </body>
