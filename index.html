@@ -4,105 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DG Eletros</title>
-  <style>
-    body {
-      background-color: #111;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-    }
-    header {
-      background-color: #f4a300;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-    .subtitulo {
-      font-size: 16px;
-      margin-top: 5px;
-    }
-    #produtos {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 20px;
-    }
-    .produto {
-      background-color: #222;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 10px;
-      width: 280px;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-    }
-    .produto img {
-      width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-    .produto h3 {
-      color: #f4a300;
-    }
-    .produto .classificacaoA {
-      color: #0f0;
-    }
-    .produto .classificacaoB {
-      color: #ff0;
-    }
-    .produto a {
-      display: inline-block;
-      margin-top: 10px;
-      background-color: #25d366;
-      color: #fff;
-      padding: 8px 12px;
-      text-decoration: none;
-      border-radius: 4px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>DG Eletros</h1>
-    <div class="subtitulo">Produtos com garantia | Novos e com pequenas avarias</div>
+    <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <div id="produtos">Carregando produtos...</div>
+  <main>
+    <section id="produtos">
+      <p style="text-align: center;">Carregando produtos...</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 DG Eletros — Loja de Saldão de Eletrodomésticos</p>
+  </footer>
 
   <script>
     async function carregarProdutos() {
-      const sheetId = "1--BfpqS5o7Cb2QZ4J2wRGhAKEj_NbYIZbbdra38Wws"; // ID da sua planilha
-      const sheetName = "Produtos DG Eletros"; // Nome da aba exato
-      const url = `https://opensheet.elk.sh/${sheetId}/${encodeURIComponent(sheetName)}`;
-
-      try {
-        const res = await fetch(url);
-        const dados = await res.json();
-
-        const container = document.getElementById("produtos");
-        container.innerHTML = "";
-
-        dados.forEach(produto => {
-          const classificacao = produto["Classificação"]?.toUpperCase() || "";
-          const classe = classificacao === "A" ? "classificacaoA" : "classificacaoB";
-
-          container.innerHTML += `
-            <div class="produto">
-              <img src="${produto["Link da Imagem"]}" alt="${produto["Nome do Produto"]}">
-              <h3>${produto["Nome do Produto"]}</h3>
-              <p>R$ ${produto["Preço"]}</p>
-              <span class="${classe}">Classificação ${classificacao}</span>
-              <p>${produto["Descrição"]}</p>
-              <a href="${produto["Link do WhatsApp"]}" target="_blank">Falar no WhatsApp</a>
-            </div>
-          `;
-        });
-      } catch (error) {
-        document.getElementById("produtos").innerHTML = "Erro ao carregar produtos.";
-        console.error(error);
-      }
+      const resposta = await fetch(
+        'https://script.google.com/macros/s/SEU_ID_DO_SCRIPT/exec'
+      );
+      const html = await resposta.text();
+      document.getElementById('produtos').innerHTML = html;
     }
 
     carregarProdutos();
