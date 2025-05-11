@@ -88,7 +88,37 @@
     }
 
     .classificacao {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .icone-A {
+      background-color: #00cc66;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .icone-B {
+      background-color: #ffc107;
+      color: black;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
     }
 
     .produto a {
@@ -165,7 +195,23 @@
       try {
         const resposta = await fetch(API_URL);
         htmlCompleto = await resposta.text();
-        document.getElementById("produtos").innerHTML = htmlCompleto;
+
+        // Substituir a classificação com ícone visual
+        const container = document.createElement("div");
+        container.innerHTML = htmlCompleto;
+
+        const produtos = container.querySelectorAll(".produto");
+        produtos.forEach(prod => {
+          const span = prod.querySelector(".classificacao");
+          if (span && span.textContent.includes("A")) {
+            span.innerHTML = `<span class="icone-A">A</span> Classificação A`;
+          } else if (span && span.textContent.includes("B")) {
+            span.innerHTML = `<span class="icone-B">B</span> Classificação B`;
+          }
+        });
+
+        document.getElementById("produtos").innerHTML = container.innerHTML;
+
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
