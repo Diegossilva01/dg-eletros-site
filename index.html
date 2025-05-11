@@ -5,65 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DG Eletros</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0e0e0e;
+      color: #fff;
       margin: 0;
       padding: 0;
     }
 
     header {
       background-color: #f4a300;
-      color: black;
+      color: #111;
       text-align: center;
-      padding: 20px 10px;
+      padding: 30px 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     header h1 {
       margin: 0;
-      font-size: 32px;
+      font-size: 36px;
+      letter-spacing: 1px;
     }
 
     header p {
-      margin: 5px 0 0;
-      font-size: 16px;
+      margin: 8px 0 0;
+      font-size: 18px;
     }
 
     #busca {
       display: flex;
       justify-content: center;
-      margin: 15px;
+      padding: 20px;
+      background-color: #1a1a1a;
     }
 
     #busca input {
-      padding: 10px;
-      width: 80%;
+      padding: 12px 20px;
+      width: 90%;
       max-width: 500px;
-      border-radius: 5px;
+      border-radius: 25px;
       border: none;
       font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    #busca input:focus {
+      box-shadow: 0 0 10px #f4a300;
     }
 
     #produtos {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 40px 20px;
     }
 
     .produto {
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      padding: 15px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      background-color: #1c1c1c;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .produto:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
     }
 
     .produto img {
-      max-width: 100%;
-      border-radius: 5px;
+      width: 100%;
       height: 200px;
       object-fit: cover;
     }
@@ -71,22 +87,26 @@
     .produto h3 {
       color: #f4a300;
       font-size: 20px;
+      margin: 15px;
     }
 
     .produto p {
-      margin: 5px 0;
+      margin: 0 15px 10px;
+      color: #ccc;
     }
 
     .classificacao {
+      margin: 0 15px 15px;
       font-weight: bold;
+      color: #4caf50;
     }
 
     footer {
       background-color: #111;
       text-align: center;
-      color: gray;
-      padding: 15px;
-      margin-top: 30px;
+      color: #888;
+      padding: 20px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -101,15 +121,15 @@
   </div>
 
   <div id="produtos">
-    <p>Carregando produtos...</p>
+    <p style="text-align:center;">Carregando produtos...</p>
   </div>
 
   <footer>
-    © 2025 DG Eletros
+    © 2025 DG Eletros — Todos os direitos reservados
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxT2-g0UkzWnOffo5W7pX7-lYvfnxrQzl3e61o0Mv_b_LsTbucFq03xosvNJ4aUBw/exec"; // Substitua pelo seu
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT2-g0UkzWnOffo5W7pX7-lYvfnxrQzl3e61o0Mv_b_LsTbucFq03xosvNJ4aUBw/exec";
 
     async function carregarProdutos() {
       try {
@@ -117,17 +137,32 @@
         const html = await resposta.text();
         document.getElementById("produtos").innerHTML = html;
       } catch (erro) {
-        document.getElementById("produtos").innerHTML = "<p>Erro ao carregar produtos.</p>";
+        document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
       }
     }
 
     function filtrarProdutos(termo) {
       termo = termo.toLowerCase();
+      let encontrados = 0;
       document.querySelectorAll(".produto").forEach(produto => {
         const texto = produto.innerText.toLowerCase();
-        produto.style.display = texto.includes(termo) ? "block" : "none";
+        const visivel = texto.includes(termo);
+        produto.style.display = visivel ? "block" : "none";
+        if (visivel) encontrados++;
       });
+
+      const aviso = document.getElementById("aviso-busca");
+      if (encontrados === 0 && !aviso) {
+        const msg = document.createElement("p");
+        msg.id = "aviso-busca";
+        msg.style.color = "gray";
+        msg.style.textAlign = "center";
+        msg.innerText = "Nenhum produto encontrado.";
+        document.getElementById("produtos").appendChild(msg);
+      } else if (encontrados && aviso) {
+        aviso.remove();
+      }
     }
 
     carregarProdutos();
