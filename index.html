@@ -2,121 +2,35 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DG Eletros</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #fff;
-    }
-
-    header {
-      background-color: #f4a300;
-      text-align: center;
-      padding: 20px 10px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    header p {
-      margin: 5px 0 0;
-      font-size: 14px;
-    }
-
-    #produtos-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 30px 10px;
-    }
-
-    .produto {
-      background-color: #222;
-      border-radius: 8px;
-      padding: 15px;
-      width: 300px;
-      box-shadow: 0 0 10px #000;
-    }
-
-    .produto img {
-      max-width: 100%;
-      border-radius: 6px;
-    }
-
-    .produto h3 {
-      color: #f4a300;
-      margin-top: 10px;
-      font-size: 18px;
-    }
-
-    .produto p {
-      margin: 6px 0;
-      font-size: 14px;
-    }
-
-    .produto .classificacao {
-      font-weight: bold;
-      display: inline-block;
-      margin: 6px 0;
-    }
-
-    .produto a {
-      display: block;
-      margin-top: 10px;
-      text-align: center;
-      padding: 10px;
-      background-color: #25D366;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-
-    .produto a:hover {
-      background-color: #1ebe5d;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #1f1f1f;
-      color: #ccc;
-      font-size: 13px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header>
     <h1>DG Eletros</h1>
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <div id="produtos-container">
-    <p>Carregando produtos...</p>
-  </div>
+  <main>
+    <section id="produtos">
+      <p>Carregando produtos...</p>
+    </section>
+  </main>
 
   <footer>
-    © 2025 DG Eletros
+    <p>&copy; 2025 DG Eletros</p>
   </footer>
 
   <script>
-    fetch("https://script.google.com/macros/s/AKfycbyJxmya_2_iaxOkoJSLf9y43eqSXFUor6HhdF5P4po3Ki9xkFPSVjLB_RCjr0fFtiyb/exec")
-      .then(response => response.text())
+    fetch('https://script.google.com/macros/s/AKfycbJxmya_2_iaxOkoJSLf9y43eqSXFUor6HhdF5P4po3Ki9xkFPSvjLB_RCjr0fFtiyb/exec')
+      .then(res => res.text())
       .then(data => {
-        document.getElementById("produtos-container").innerHTML = data;
+        document.getElementById('produtos').innerHTML = data;
       })
-      .catch(error => {
-        console.error("Erro ao carregar produtos:", error);
-        document.getElementById("produtos-container").innerHTML = "<p>Erro ao carregar produtos.</p>";
+      .catch(err => {
+        document.getElementById('produtos').innerHTML = '<p>Erro ao carregar produtos.</p>';
       });
   </script>
-
 </body>
 </html>
