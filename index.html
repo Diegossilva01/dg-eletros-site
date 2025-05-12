@@ -49,12 +49,24 @@
     #busca input:focus {
       box-shadow: 0 0 10px #f4a300;
     }
-    #produtos {
+
+    h2 {
+      font-size: 26px;
+      color: #f4a300;
+      margin: 40px 20px 10px;
+      border-left: 5px solid #f4a300;
+      padding-left: 10px;
+    }
+
+    .categoria-bloco {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 25px;
-      padding: 40px 20px;
+      padding: 10px 20px 40px;
+      background-color: #111;
+      border-radius: 10px;
     }
+
     .produto {
       background-color: #1c1c1c;
       border-radius: 15px;
@@ -83,8 +95,10 @@
     .classificacao {
       margin: 0 15px 15px;
       font-weight: bold;
-      color: #4caf50;
     }
+    .classificacao.a { color: #4caf50; }
+    .classificacao.b { color: #ff9800; }
+
     section#classificacao-info {
       background-color: #1a1a1a;
       padding: 40px 20px;
