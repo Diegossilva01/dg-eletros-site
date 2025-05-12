@@ -103,8 +103,10 @@
     }
     .produto img {
       width: 100%;
-      height: 200px;
-      object-fit: cover;
+      height: auto; /* Alterado para "auto" para evitar cortar as imagens */
+      object-fit: contain; /* Faz a imagem se ajustar sem cortar */
+      max-height: 200px; /* Limita a altura das imagens */
+      object-position: center; /* Centraliza a imagem */
     }
     .produto h3 {
       color: #f4a300;
@@ -166,6 +168,16 @@
       padding: 20px;
       font-size: 14px;
     }
+
+    /* Estilo de responsividade para telas grandes */
+    @media (min-width: 1200px) {
+      .categoria-bloco {
+        grid-template-columns: repeat(4, 1fr); /* Mais colunas em telas grandes */
+      }
+      header {
+        padding: 40px 15px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -178,9 +190,12 @@
     <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
   </div>
 
-  <!-- Filtro de Categorias -->
   <div id="filtro-categorias">
-    <!-- Botões de filtro serão carregados aqui -->
+    <!-- Botões de filtro de categoria -->
+    <button onclick="filtrarPorCategoria('eletronicos')">Eletrônicos</button>
+    <button onclick="filtrarPorCategoria('eletrodomesticos')">Eletrodomésticos</button>
+    <button onclick="filtrarPorCategoria('moveis')">Móveis</button>
+    <button onclick="filtrarPorCategoria('outros')">Outros</button>
   </div>
 
   <div id="produtos">
@@ -212,43 +227,17 @@
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx1KGaiCRpwHMrJBn1ifwaXK8nfukaYcmDXKxNPGhtVTozZ-nNcAL01CXrx3pU9-Q9g/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT2-g0UkzWn0ffo5W7pX7-lYvfnxrQzl3e6100Mv_b_LsTbucFq03xosvNJ4aUBw/exec";
 
     async function carregarProdutos() {
       try {
         const resposta = await fetch(API_URL);
         const html = await resposta.text();
         document.getElementById("produtos").innerHTML = html;
-
-        // Criar os botões de filtro por categoria
-        criarFiltros();
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
       }
-    }
-
-    function criarFiltros() {
-      const categorias = new Set();
-      document.querySelectorAll('.produto').forEach(produto => {
-        const categoria = produto.getAttribute('data-categoria');
-        categorias.add(categoria);
-      });
-
-      const container = document.getElementById('filtro-categorias');
-      categorias.forEach(categoria => {
-        const button = document.createElement('button');
-        button.textContent = categoria;
-        button.onclick = () => filtrarPorCategoria(categoria);
-        button.setAttribute('data-categoria', categoria);
-        container.appendChild(button);
-      });
-
-      // Adiciona o botão "Mostrar Todos" para limpar o filtro
-      const buttonTodos = document.createElement('button');
-      buttonTodos.textContent = 'Mostrar Todos';
-      buttonTodos.onclick = () => filtrarPorCategoria(''); // Limpa o filtro
-      container.appendChild(buttonTodos);
     }
 
     function filtrarProdutos(termo) {
@@ -275,20 +264,10 @@
     }
 
     function filtrarPorCategoria(categoria) {
-      const produtos = document.querySelectorAll('.produto');
-      produtos.forEach(produto => {
-        if (produto.getAttribute('data-categoria') === categoria || categoria === '') {
-          produto.style.display = 'block';
-        } else {
-          produto.style.display = 'none';
-        }
+      document.querySelectorAll(".produto").forEach(produto => {
+        const produtoCategoria = produto.getAttribute("data-categoria").toLowerCase();
+        produto.style.display = produtoCategoria === categoria ? "block" : "none";
       });
-
-      // Marca o botão da categoria ativa
-      document.querySelectorAll('#filtro-categorias button').forEach(button => {
-        button.classList.remove('ativo');
-      });
-      document.querySelector(`#filtro-categorias button[data-categoria="${categoria}"]`).classList.add('ativo');
     }
 
     carregarProdutos();
