@@ -50,27 +50,25 @@
       box-shadow: 0 0 10px #f4a300;
     }
 
-    #filtro-categorias {
+    /* Estilos dos Botões de Categoria */
+    .filtro-categoria {
       display: flex;
       justify-content: center;
       gap: 10px;
-      padding: 20px;
-      background-color: #1a1a1a;
+      margin: 20px 0;
     }
-    #filtro-categorias button {
-      padding: 10px 15px;
-      background-color: #444;
+    .filtro-categoria button {
+      background-color: #f4a300;
       border: none;
-      color: #fff;
-      border-radius: 5px;
+      color: #111;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 25px;
       cursor: pointer;
       transition: 0.3s;
     }
-    #filtro-categorias button:hover {
-      background-color: #f4a300;
-    }
-    #filtro-categorias button.ativo {
-      background-color: #f4a300;
+    .filtro-categoria button:hover {
+      background-color: #d68900;
     }
 
     h2 {
@@ -103,64 +101,45 @@
     }
     .produto img {
       width: 100%;
-      height: auto; /* Alterado para "auto" para evitar cortar as imagens */
-      object-fit: contain; /* Faz a imagem se ajustar sem cortar */
-      max-height: 200px; /* Limita a altura das imagens */
-      object-position: center; /* Centraliza a imagem */
+      height: auto;
+      object-fit: cover;
+      max-height: 200px;
+    }
+    .produto .info-produto {
+      padding: 15px;
     }
     .produto h3 {
       color: #f4a300;
       font-size: 20px;
-      margin: 15px;
+      margin: 15px 0;
     }
     .produto p {
-      margin: 0 15px 10px;
+      margin: 0 0 10px;
       color: #ccc;
     }
     .classificacao {
-      margin: 0 15px 15px;
+      margin: 0 0 15px;
       font-weight: bold;
     }
     .classificacao.a { color: #4caf50; }
     .classificacao.b { color: #ff9800; }
 
-    section#classificacao-info {
-      background-color: #1a1a1a;
-      padding: 40px 20px;
+    .whatsapp-btn {
+      display: block;
       text-align: center;
-    }
-    #classificacao-info h2 {
-      font-size: 28px;
-      margin-bottom: 15px;
-      color: #f4a300;
-    }
-    #classificacao-info p {
+      background-color: #25D366;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
       font-size: 16px;
-      color: #ccc;
-      margin-bottom: 25px;
+      margin-top: 10px;
     }
-    .class-lista {
-      display: grid;
-      gap: 20px;
-      max-width: 800px;
-      margin: 0 auto;
+
+    .whatsapp-btn:hover {
+      background-color: #128C7E;
     }
-    .class-item {
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      background-color: #fff;
-      color: #000;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .class-item:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
+
     footer {
       background-color: #111;
       text-align: center;
@@ -169,15 +148,22 @@
       font-size: 14px;
     }
 
-    /* Estilo de responsividade para telas grandes */
-    @media (min-width: 1200px) {
-      .categoria-bloco {
-        grid-template-columns: repeat(4, 1fr); /* Mais colunas em telas grandes */
+    /* Responsividade */
+    @media (min-width: 768px) {
+      .produto {
+        display: flex;
+        align-items: center;
       }
-      header {
-        padding: 40px 15px;
+      .produto img {
+        width: 40%;
+        height: auto;
+        margin-right: 20px;
+      }
+      .produto .info-produto {
+        width: 60%;
       }
     }
+
   </style>
 </head>
 <body>
@@ -190,8 +176,8 @@
     <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
   </div>
 
-  <div id="filtro-categorias">
-    <!-- Botões de filtro de categoria -->
+  <!-- Filtro de Categorias -->
+  <div class="filtro-categoria">
     <button onclick="filtrarPorCategoria('eletronicos')">Eletrônicos</button>
     <button onclick="filtrarPorCategoria('eletrodomesticos')">Eletrodomésticos</button>
     <button onclick="filtrarPorCategoria('moveis')">Móveis</button>
@@ -201,26 +187,6 @@
   <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
-
-  <!-- Classificação dos Produtos -->
-  <section id="classificacao-info">
-    <h2><i class="fas fa-tags"></i> Classificação dos Produtos</h2>
-    <p>Entenda como identificamos o estado dos produtos disponíveis:</p>
-    <div class="class-lista">
-      <div class="class-item" style="border-left: 6px solid #4caf50;">
-        <i class="fas fa-thumbs-up" style="margin-right:10px;color:#4caf50;"></i>
-        <div>
-          <strong>CLASSE A:</strong> Produto em ótimo estado, bem conservado, com mínimas avarias estéticas que não comprometem o uso.
-        </div>
-      </div>
-      <div class="class-item" style="border-left: 6px solid #ff9800;">
-        <i class="fas fa-exclamation-circle" style="margin-right:10px;color:#ff9800;"></i>
-        <div>
-          <strong>CLASSE B:</strong> Produto com avarias visíveis ou pequenos amassados, mas totalmente funcional e pronto para uso.
-        </div>
-      </div>
-    </div>
-  </section>
 
   <footer>
     © 2025 DG Eletros — Todos os direitos reservados
@@ -264,9 +230,13 @@
     }
 
     function filtrarPorCategoria(categoria) {
-      document.querySelectorAll(".produto").forEach(produto => {
-        const produtoCategoria = produto.getAttribute("data-categoria").toLowerCase();
-        produto.style.display = produtoCategoria === categoria ? "block" : "none";
+      const produtos = document.querySelectorAll(".produto");
+      produtos.forEach(produto => {
+        if (produto.getAttribute("data-categoria") === categoria) {
+          produto.style.display = "block";
+        } else {
+          produto.style.display = "none";
+        }
       });
     }
 
