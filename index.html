@@ -6,17 +6,38 @@
   <title>DG Eletros</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #111;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #121212, #1e1e1e);
       color: #fff;
     }
     header {
       background-color: #f4a300;
-      color: #111;
-      text-align: center;
       padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    header h1 {
+      font-size: 36px;
+      color: #111;
+    }
+    header p {
+      font-size: 16px;
+      color: #222;
+    }
+    .banner {
+      width: 100%;
+      max-height: 300px;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      object-fit: cover;
     }
     #busca {
       text-align: center;
@@ -36,35 +57,35 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      padding: 10px;
+      padding: 10px 0;
       background-color: #222;
     }
     .filtro-categorias button {
       background-color: #f4a300;
       color: #000;
       border: none;
-      padding: 10px 15px;
+      padding: 10px 20px;
       border-radius: 20px;
-      cursor: pointer;
       font-weight: bold;
+      cursor: pointer;
       transition: 0.3s;
     }
     .filtro-categorias button:hover {
-      background-color: #d78c00;
+      background-color: #e69300;
     }
     #produtos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      padding: 20px;
+      padding: 30px;
     }
     .produto {
-      background-color: #1c1c1c;
-      border-radius: 12px;
+      background-color: #1f1f1f;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       transition: transform 0.3s;
     }
     .produto:hover {
@@ -76,48 +97,53 @@
       object-fit: contain;
       background: #000;
     }
-    .produto .info {
+    .info {
       padding: 15px;
     }
-    .produto h3 {
-      font-size: 18px;
+    .info h3 {
+      font-size: 20px;
       color: #f4a300;
       margin-bottom: 10px;
     }
-    .produto p {
+    .info p {
       font-size: 14px;
+      margin-bottom: 8px;
       color: #ccc;
-      margin-bottom: 10px;
     }
-    .produto .classificacao {
-      font-size: 13px;
+    .classificacao {
       font-weight: bold;
+      font-size: 14px;
+    }
+    .classificacao.a {
       color: #4caf50;
     }
-    .produto .whatsapp {
+    .classificacao.b {
+      color: #ff9800;
+    }
+    .whatsapp {
+      display: inline-block;
       margin-top: 10px;
-      display: block;
-      text-align: center;
       background-color: #25D366;
-      color: white;
+      color: #fff;
       text-decoration: none;
+      text-align: center;
       padding: 10px;
       border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
-    .produto .whatsapp:hover {
-      background-color: #128C7E;
+    .whatsapp i {
+      margin-right: 6px;
+    }
+    .whatsapp:hover {
+      background-color: #128c7e;
     }
     footer {
-      background-color: #111;
       text-align: center;
-      padding: 15px;
+      padding: 20px;
       font-size: 14px;
       color: #888;
-    }
-    @media (max-width: 600px) {
-      .produto img {
-        height: 160px;
-      }
+      background-color: #111;
     }
   </style>
 </head>
@@ -126,6 +152,10 @@
     <h1>DG Eletros</h1>
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
+
+  <div class="banner">
+    <img src="https://via.placeholder.com/1200x300?text=Promo%C3%A7%C3%B5es+da+Semana+na+DG+Eletros" alt="Banner">
+  </div>
 
   <div id="busca">
     <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
@@ -145,11 +175,12 @@
   </div>
 
   <footer>
-    © 2025 DG Eletros — Todos os direitos reservados
+    © 2025 DG Eletros — Todos os direitos reservados<br>
+    <i class="fab fa-instagram"></i> @dgeletros
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx1KGaiCRpwHMrJBn1ifwaXK8nfukaYcmDXKxNPGhtVTozZ-nNcAL01CXrx3pU9-Q9g/exec"; // Substitua com seu link novo
+    const API_URL = "https://script.google.com/macros/s/SEU-LINK-AQUI/exec";
 
     async function carregarProdutos() {
       try {
