@@ -143,6 +143,35 @@
       padding: 20px;
       font-size: 14px;
     }
+
+    #filtro-categorias {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      background-color: #1a1a1a;
+      margin-top: 20px;
+    }
+
+    #filtro-categorias button {
+      background-color: #f4a300;
+      color: #111;
+      border: none;
+      padding: 12px 25px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #filtro-categorias button:hover {
+      background-color: #ff9800;
+    }
+
+    #filtro-categorias button.ativo {
+      background-color: #ff9800;
+    }
+
   </style>
 </head>
 <body>
@@ -152,7 +181,12 @@
   </header>
 
   <div id="busca">
-    <input type="text" id="campo-busca" placeholder="Buscar produto ou categoria..." />
+    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
+  </div>
+
+  <!-- Filtros de categoria -->
+  <div id="filtro-categorias" style="text-align:center; margin-top:20px;">
+    <!-- Botões de filtro serão carregados aqui -->
   </div>
 
   <div id="produtos">
@@ -184,18 +218,14 @@
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx1KGaiCRpwHMrJBn1ifwaXK8nfukaYcmDXKxNPGhtVTozZ-nNcAL01CXrx3pU9-Q9g/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT2-g0UkzWn0ffo5W7pX7-lYvfnxrQzl3e6100Mv_b_LsTbucFq03xosvNJ4aUBw/exec";
 
     async function carregarProdutos() {
       try {
         const resposta = await fetch(API_URL);
         const html = await resposta.text();
         document.getElementById("produtos").innerHTML = html;
-
-        // Ativa o filtro depois de carregar os produtos
-        document.getElementById("campo-busca").addEventListener("input", function () {
-          filtrarProdutos(this.value);
-        });
+        carregarCategorias(); // Carrega as categorias assim que os produtos são carregados
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
@@ -205,10 +235,6 @@
     function filtrarProdutos(termo) {
       termo = termo.toLowerCase();
       let encontrados = 0;
-
-      const aviso = document.getElementById("aviso-busca");
-      if (aviso) aviso.remove();
-
       document.querySelectorAll(".produto").forEach(produto => {
         const texto = produto.innerText.toLowerCase();
         const visivel = texto.includes(termo);
@@ -216,14 +242,65 @@
         if (visivel) encontrados++;
       });
 
-      if (encontrados === 0) {
+      const aviso = document.getElementById("aviso-busca");
+      if (encontrados === 0 && !aviso) {
         const msg = document.createElement("p");
         msg.id = "aviso-busca";
         msg.style.color = "gray";
         msg.style.textAlign = "center";
         msg.innerText = "Nenhum produto encontrado.";
         document.getElementById("produtos").appendChild(msg);
+      } else if (encontrados && aviso) {
+        aviso.remove();
       }
+    }
+
+    // Função para carregar as categorias como botões
+    function carregarCategorias() {
+      const produtos = document.querySelectorAll('.produto');
+      const categorias = new Set();
+
+      produtos.forEach(produto => {
+        const categoria = produto.getAttribute('data-categoria');
+        categorias.add(categoria);
+      });
+
+      // Preenche o container de botões com as categorias
+      const container = document.getElementById('filtro-categorias');
+      categorias.forEach(categoria => {
+        const button = document.createElement('button');
+        button.textContent = categoria.charAt(0).toUpperCase() + categoria.slice(1);
+        button.setAttribute('data-categoria', categoria);
+        button.onclick = () => filtrarPorCategoria(categoria);
+        container.appendChild(button);
+      });
+
+      // Adiciona o botão "Mostrar Todos" para limpar o filtro
+      const buttonTodos = document.createElement('button');
+      buttonTodos.textContent = 'Mostrar Todos';
+      buttonTodos.onclick = () => filtrarPorCategoria('');
+      container.appendChild(buttonTodos);
+    }
+
+    // Função para filtrar os produtos por categoria
+    function filtrarPorCategoria(categoria) {
+      const produtos = document.querySelectorAll('.produto');
+      
+      // Limpa a classe 'ativo' dos botões
+      const botoes = document.querySelectorAll('#filtro-categorias button');
+      botoes.forEach(button => button.classList.remove('ativo'));
+
+      // Destaca o botão da categoria ativa
+      if (categoria) {
+        const buttonAtivo = document.querySelector(`#filtro-categorias button[data-categoria="${categoria}"]`);
+        if (buttonAtivo) buttonAtivo.classList.add('ativo');
+      }
+
+      // Exibe/oculta os produtos com base na categoria
+      produtos.forEach(produto => {
+        const produtoCategoria = produto.getAttribute('data-categoria');
+        produto.style.display = categoria === '' || produtoCategoria === categoria ? 'block' : 'none';
+      });
     }
 
     carregarProdutos();
