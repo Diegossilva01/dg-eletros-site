@@ -152,7 +152,7 @@
   </header>
 
   <div id="busca">
-    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
+    <input type="text" id="campo-busca" placeholder="Buscar produto ou categoria..." />
   </div>
 
   <div id="produtos">
@@ -191,6 +191,11 @@
         const resposta = await fetch(API_URL);
         const html = await resposta.text();
         document.getElementById("produtos").innerHTML = html;
+
+        // Ativa o filtro depois de carregar os produtos
+        document.getElementById("campo-busca").addEventListener("input", function () {
+          filtrarProdutos(this.value);
+        });
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
         console.error("Erro:", erro);
@@ -200,6 +205,10 @@
     function filtrarProdutos(termo) {
       termo = termo.toLowerCase();
       let encontrados = 0;
+
+      const aviso = document.getElementById("aviso-busca");
+      if (aviso) aviso.remove();
+
       document.querySelectorAll(".produto").forEach(produto => {
         const texto = produto.innerText.toLowerCase();
         const visivel = texto.includes(termo);
@@ -207,16 +216,13 @@
         if (visivel) encontrados++;
       });
 
-      const aviso = document.getElementById("aviso-busca");
-      if (encontrados === 0 && !aviso) {
+      if (encontrados === 0) {
         const msg = document.createElement("p");
         msg.id = "aviso-busca";
         msg.style.color = "gray";
         msg.style.textAlign = "center";
         msg.innerText = "Nenhum produto encontrado.";
         document.getElementById("produtos").appendChild(msg);
-      } else if (encontrados && aviso) {
-        aviso.remove();
       }
     }
 
