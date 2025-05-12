@@ -6,7 +6,12 @@
   <title>DG Eletros</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #111;
@@ -15,120 +20,126 @@
 
     header {
       background-color: #f4a300;
+      color: #111;
       text-align: center;
-      padding: 20px 0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    header h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 16px;
-      color: #333;
+      padding: 20px;
     }
 
     #busca {
       text-align: center;
-      margin: 20px 0;
+      padding: 20px;
+      background-color: #1a1a1a;
     }
 
     #busca input {
-      padding: 12px;
-      width: 80%;
-      max-width: 400px;
+      width: 90%;
+      max-width: 500px;
+      padding: 12px 20px;
       font-size: 16px;
       border-radius: 25px;
       border: none;
     }
 
-    .filtro-categoria {
+    .filtro-categorias {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
-      margin: 20px 0;
+      gap: 10px;
+      padding: 10px;
+      background-color: #222;
     }
 
-    .filtro-categoria button {
+    .filtro-categorias button {
       background-color: #f4a300;
+      color: #000;
       border: none;
-      color: #111;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 25px;
+      padding: 10px 15px;
+      border-radius: 20px;
       cursor: pointer;
+      font-weight: bold;
       transition: 0.3s;
     }
 
-    .filtro-categoria button:hover {
-      background-color: #d68900;
+    .filtro-categorias button:hover {
+      background-color: #d78c00;
     }
 
-    .produto-container {
+    #produtos {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      margin: 0 10px;
+      padding: 20px;
     }
 
     .produto {
       background-color: #1c1c1c;
-      border-radius: 15px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+
+    .produto:hover {
+      transform: translateY(-5px);
     }
 
     .produto img {
       width: 100%;
       height: 200px;
-      object-fit: cover;
+      object-fit: contain;
+      background: #000;
     }
 
-    .produto .info-produto {
+    .produto .info {
       padding: 15px;
-      color: #ccc;
     }
 
     .produto h3 {
+      font-size: 18px;
       color: #f4a300;
-      font-size: 20px;
       margin-bottom: 10px;
     }
 
     .produto p {
-      font-size: 16px;
-      margin-bottom: 15px;
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 10px;
     }
 
-    .whatsapp-btn {
+    .produto .classificacao {
+      font-size: 13px;
+      font-weight: bold;
+      color: #4caf50;
+    }
+
+    .produto .whatsapp {
+      margin-top: 10px;
       display: block;
       text-align: center;
       background-color: #25D366;
       color: white;
-      padding: 10px;
       text-decoration: none;
+      padding: 10px;
       border-radius: 5px;
-      margin-top: 10px;
-      font-size: 16px;
     }
 
-    .whatsapp-btn:hover {
+    .produto .whatsapp:hover {
       background-color: #128C7E;
     }
 
-    /* Layout Responsivo */
-    @media (min-width: 768px) {
-      .produto-container {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    footer {
+      background-color: #111;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: #888;
+    }
 
-      .produto {
-        flex-direction: column;
+    @media (max-width: 600px) {
+      .produto img {
+        height: 160px;
       }
     }
   </style>
@@ -140,18 +151,18 @@
   </header>
 
   <div id="busca">
-    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
+    <input type="text" placeholder="Buscar produto..." oninput="filtrarProdutos(this.value)" />
   </div>
 
-  <!-- Filtro de Categorias -->
-  <div class="filtro-categoria">
-    <button onclick="filtrarPorCategoria('eletronicos')">Eletrônicos</button>
-    <button onclick="filtrarPorCategoria('eletrodomesticos')">Eletrodomésticos</button>
-    <button onclick="filtrarPorCategoria('moveis')">Móveis</button>
-    <button onclick="filtrarPorCategoria('outros')">Outros</button>
+  <div class="filtro-categorias">
+    <button onclick="filtrarCategoria('todos')">Todos</button>
+    <button onclick="filtrarCategoria('geladeira')">Geladeiras</button>
+    <button onclick="filtrarCategoria('tv')">TVs</button>
+    <button onclick="filtrarCategoria('maquina')">Máquinas</button>
+    <button onclick="filtrarCategoria('outros')">Outros</button>
   </div>
 
-  <div id="produtos" class="produto-container">
+  <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
 
@@ -169,41 +180,21 @@
         document.getElementById("produtos").innerHTML = html;
       } catch (erro) {
         document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
-        console.error("Erro:", erro);
       }
     }
 
     function filtrarProdutos(termo) {
       termo = termo.toLowerCase();
-      let encontrados = 0;
-      document.querySelectorAll(".produto").forEach(produto => {
-        const texto = produto.innerText.toLowerCase();
-        const visivel = texto.includes(termo);
-        produto.style.display = visivel ? "block" : "none";
-        if (visivel) encontrados++;
+      document.querySelectorAll(".produto").forEach(p => {
+        const texto = p.innerText.toLowerCase();
+        p.style.display = texto.includes(termo) ? "block" : "none";
       });
-
-      const aviso = document.getElementById("aviso-busca");
-      if (encontrados === 0 && !aviso) {
-        const msg = document.createElement("p");
-        msg.id = "aviso-busca";
-        msg.style.color = "gray";
-        msg.style.textAlign = "center";
-        msg.innerText = "Nenhum produto encontrado.";
-        document.getElementById("produtos").appendChild(msg);
-      } else if (encontrados && aviso) {
-        aviso.remove();
-      }
     }
 
-    function filtrarPorCategoria(categoria) {
-      const produtos = document.querySelectorAll(".produto");
-      produtos.forEach(produto => {
-        if (produto.getAttribute("data-categoria") === categoria || categoria === 'all') {
-          produto.style.display = "block";
-        } else {
-          produto.style.display = "none";
-        }
+    function filtrarCategoria(categoria) {
+      document.querySelectorAll(".produto").forEach(p => {
+        const cat = p.getAttribute("data-categoria") || "";
+        p.style.display = (categoria === "todos" || cat === categoria) ? "block" : "none";
       });
     }
 
