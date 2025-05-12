@@ -68,7 +68,7 @@
 
     .produto-container {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       margin: 0 10px;
     }
@@ -80,6 +80,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
     }
 
     .produto img {
@@ -120,24 +121,14 @@
       background-color: #128C7E;
     }
 
-    /* Layout responsivo */
+    /* Layout Responsivo */
     @media (min-width: 768px) {
       .produto-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .produto {
-        flex-direction: row;
-      }
-
-      .produto img {
-        width: 40%;
-        height: auto;
-        margin-right: 15px;
-      }
-
-      .produto .info-produto {
-        width: 60%;
+        flex-direction: column;
       }
     }
   </style>
@@ -169,7 +160,7 @@
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx1KGaiCRpwHMrJBn1ifwaXK8nfukaYcmDXKxNPGhtVTozZ-nNcAL01CXrx3pU9-Q9g/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT2-g0UkzWn0ffo5W7pX7-lYvfnxrQzl3e6100Mv_b_LsTbucFq03xosvNJ4aUBw/exec";
 
     async function carregarProdutos() {
       try {
@@ -208,7 +199,7 @@
     function filtrarPorCategoria(categoria) {
       const produtos = document.querySelectorAll(".produto");
       produtos.forEach(produto => {
-        if (produto.getAttribute("data-categoria") === categoria) {
+        if (produto.getAttribute("data-categoria") === categoria || categoria === 'all') {
           produto.style.display = "block";
         } else {
           produto.style.display = "none";
