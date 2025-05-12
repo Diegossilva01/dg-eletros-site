@@ -73,22 +73,6 @@
     .filtro-categorias button:hover {
       background-color: #e69300;
     }
-    .classificacao-info {
-      background-color: #1a1a1a;
-      padding: 20px;
-      text-align: center;
-      color: #ccc;
-    }
-    .classificacao-info h2 {
-      color: #f4a300;
-      margin-bottom: 10px;
-    }
-    .classificacao-info p {
-      max-width: 800px;
-      margin: auto;
-      font-size: 15px;
-      line-height: 1.6;
-    }
     #produtos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -154,6 +138,27 @@
     .whatsapp:hover {
       background-color: #128c7e;
     }
+
+    /* Rodapé de classificação */
+    .classificacao-info {
+      background-color: #1c1c1c;
+      padding: 40px 20px;
+      border-top: 2px solid #f4a300;
+      text-align: center;
+      color: #ccc;
+    }
+    .classificacao-info h3 {
+      color: #f4a300;
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+    .classificacao-info p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -187,18 +192,19 @@
     <button onclick="filtrarCategoria('ar condicionado')">Ar-condicionado</button>
   </div>
 
-  <section class="classificacao-info">
-    <h2><i class="fas fa-info-circle"></i> Sobre os produtos</h2>
-    <p>
-      Todos os produtos vendidos pela <strong>DG Eletros</strong> são itens de <strong>mostruário</strong>, testados e com garantia.
-      A <strong>Classificação A</strong> indica produtos em ótimo estado, com mínimas avarias estéticas, como pequenos riscos ou marcas que não comprometem o uso.
-      Já a <strong>Classificação B</strong> indica produtos com mais sinais de uso, amassados ou riscos mais visíveis, mas ainda assim totalmente funcionais.
-    </p>
-  </section>
-
   <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
+
+  <!-- Rodapé com explicação da classificação -->
+  <section class="classificacao-info">
+    <h3><i class="fas fa-tag"></i> Classificação dos Produtos</h3>
+    <p>
+      Todos os produtos da <strong>DG Eletros</strong> são itens de <strong>mostruário</strong>, testados e com garantia. <br>
+      <strong>Classificação A</strong>: produtos em ótimo estado, com mínimas marcas ou riscos leves. <br>
+      <strong>Classificação B</strong>: produtos com avarias estéticas mais visíveis, como riscos profundos ou amassados, mas totalmente funcionais.
+    </p>
+  </section>
 
   <footer>
     © 2025 DG Eletros — Todos os direitos reservados<br>
