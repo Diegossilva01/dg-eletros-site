@@ -17,27 +17,20 @@
       color: #fff;
     }
     header {
-      background-color: #f4a300;
-      padding: 20px;
+      background-color: #fff;
+      color: #000;
       text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      padding: 25px 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     header h1 {
       font-size: 36px;
-      color: #111;
+      color: #f4a300;
+      margin-bottom: 5px;
     }
     header p {
       font-size: 16px;
-      color: #222;
-    }
-    .banner {
-      width: 100%;
-      max-height: 300px;
-      overflow: hidden;
-    }
-    .banner img {
-      width: 100%;
-      object-fit: cover;
+      color: #333;
     }
     #busca {
       text-align: center;
@@ -105,14 +98,21 @@
       color: #f4a300;
       margin-bottom: 10px;
     }
+    .info .preco {
+      font-size: 22px;
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     .info p {
       font-size: 14px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #ccc;
     }
     .classificacao {
-      font-weight: bold;
       font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
     }
     .classificacao.a {
       color: #4caf50;
@@ -139,24 +139,23 @@
       background-color: #128c7e;
     }
 
-    /* Rodapé de classificação */
-    .classificacao-info {
-      background-color: #1c1c1c;
+    .classificacao-produtos {
+      background-color: #181818;
       padding: 40px 20px;
-      border-top: 2px solid #f4a300;
+      margin-top: 30px;
       text-align: center;
-      color: #ccc;
     }
-    .classificacao-info h3 {
-      color: #f4a300;
-      margin-bottom: 12px;
+    .classificacao-produtos h2 {
       font-size: 22px;
+      color: #f4a300;
+      margin-bottom: 20px;
     }
-    .classificacao-info p {
+    .classificacao-produtos p {
       max-width: 800px;
-      margin: auto;
+      margin: 10px auto;
       font-size: 15px;
-      line-height: 1.6;
+      color: #ccc;
+      line-height: 1.5;
     }
 
     footer {
@@ -173,10 +172,6 @@
     <h1>DG Eletros</h1>
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
-
-  <div class="banner">
-    <img src="https://cdn.jsdelivr.net/gh/dgleletros/banners/dg-banner.png" alt="Promoções da DG Eletros">
-  </div>
 
   <div id="busca">
     <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
@@ -196,14 +191,11 @@
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
 
-  <!-- Rodapé com explicação da classificação -->
-  <section class="classificacao-info">
-    <h3><i class="fas fa-tag"></i> Classificação dos Produtos</h3>
-    <p>
-      Todos os produtos da <strong>DG Eletros</strong> são itens de <strong>mostruário</strong>, testados e com garantia. <br>
-      <strong>Classificação A</strong>: produtos em ótimo estado, com mínimas marcas ou riscos leves. <br>
-      <strong>Classificação B</strong>: produtos com avarias estéticas mais visíveis, como riscos profundos ou amassados, mas totalmente funcionais.
-    </p>
+  <section class="classificacao-produtos">
+    <h2><i class="fas fa-tags"></i> Classificação dos Produtos</h2>
+    <p>Todos os produtos da DG Eletros são de mostruário, testados e com garantia.</p>
+    <p><strong>Classificação A:</strong> produtos em ótimo estado, com mínimas marcas ou riscos leves.</p>
+    <p><strong>Classificação B:</strong> produtos com avarias estéticas mais visíveis, como riscos profundos ou amassados, mas totalmente funcionais.</p>
   </section>
 
   <footer>
