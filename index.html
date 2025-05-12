@@ -73,6 +73,22 @@
     .filtro-categorias button:hover {
       background-color: #e69300;
     }
+    .classificacao-info {
+      background-color: #1a1a1a;
+      padding: 20px;
+      text-align: center;
+      color: #ccc;
+    }
+    .classificacao-info h2 {
+      color: #f4a300;
+      margin-bottom: 10px;
+    }
+    .classificacao-info p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 15px;
+      line-height: 1.6;
+    }
     #produtos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -170,6 +186,15 @@
     <button onclick="filtrarCategoria('micro-ondas')">Micro-ondas</button>
     <button onclick="filtrarCategoria('ar condicionado')">Ar-condicionado</button>
   </div>
+
+  <section class="classificacao-info">
+    <h2><i class="fas fa-info-circle"></i> Sobre os produtos</h2>
+    <p>
+      Todos os produtos vendidos pela <strong>DG Eletros</strong> são itens de <strong>mostruário</strong>, testados e com garantia.
+      A <strong>Classificação A</strong> indica produtos em ótimo estado, com mínimas avarias estéticas, como pequenos riscos ou marcas que não comprometem o uso.
+      Já a <strong>Classificação B</strong> indica produtos com mais sinais de uso, amassados ou riscos mais visíveis, mas ainda assim totalmente funcionais.
+    </p>
+  </section>
 
   <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
