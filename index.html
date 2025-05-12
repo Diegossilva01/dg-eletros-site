@@ -6,31 +6,23 @@
   <title>DG Eletros</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #111;
       color: #fff;
     }
-
     header {
       background-color: #f4a300;
       color: #111;
       text-align: center;
       padding: 20px;
     }
-
     #busca {
       text-align: center;
       padding: 20px;
       background-color: #1a1a1a;
     }
-
     #busca input {
       width: 90%;
       max-width: 500px;
@@ -39,7 +31,6 @@
       border-radius: 25px;
       border: none;
     }
-
     .filtro-categorias {
       display: flex;
       flex-wrap: wrap;
@@ -48,7 +39,6 @@
       padding: 10px;
       background-color: #222;
     }
-
     .filtro-categorias button {
       background-color: #f4a300;
       color: #000;
@@ -59,30 +49,15 @@
       font-weight: bold;
       transition: 0.3s;
     }
-
     .filtro-categorias button:hover {
       background-color: #d78c00;
     }
-
     #produtos {
-      padding: 20px;
-    }
-
-    .categoria-bloco {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      margin-bottom: 40px;
+      padding: 20px;
     }
-
-    h2 {
-      font-size: 24px;
-      margin: 30px 10px 10px;
-      color: #f4a300;
-      border-left: 4px solid #f4a300;
-      padding-left: 10px;
-    }
-
     .produto {
       background-color: #1c1c1c;
       border-radius: 12px;
@@ -92,40 +67,33 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       transition: transform 0.3s;
     }
-
     .produto:hover {
       transform: translateY(-5px);
     }
-
     .produto img {
       width: 100%;
       height: 200px;
       object-fit: contain;
       background: #000;
     }
-
     .produto .info {
       padding: 15px;
     }
-
     .produto h3 {
       font-size: 18px;
       color: #f4a300;
       margin-bottom: 10px;
     }
-
     .produto p {
       font-size: 14px;
       color: #ccc;
       margin-bottom: 10px;
     }
-
     .produto .classificacao {
       font-size: 13px;
       font-weight: bold;
       color: #4caf50;
     }
-
     .produto .whatsapp {
       margin-top: 10px;
       display: block;
@@ -136,11 +104,9 @@
       padding: 10px;
       border-radius: 5px;
     }
-
     .produto .whatsapp:hover {
       background-color: #128C7E;
     }
-
     footer {
       background-color: #111;
       text-align: center;
@@ -148,7 +114,6 @@
       font-size: 14px;
       color: #888;
     }
-
     @media (max-width: 600px) {
       .produto img {
         height: 160px;
@@ -163,7 +128,7 @@
   </header>
 
   <div id="busca">
-    <input type="text" placeholder="Buscar produto..." oninput="filtrarProdutos(this.value)" />
+    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
   </div>
 
   <div class="filtro-categorias">
@@ -171,7 +136,8 @@
     <button onclick="filtrarCategoria('geladeira')">Geladeiras</button>
     <button onclick="filtrarCategoria('tv')">TVs</button>
     <button onclick="filtrarCategoria('maquina')">Máquinas</button>
-    <button onclick="filtrarCategoria('outros')">Outros</button>
+    <button onclick="filtrarCategoria('ferramenta')">Ferramentas</button>
+    <button onclick="filtrarCategoria('micro-ondas')">Micro-ondas</button>
   </div>
 
   <div id="produtos">
@@ -183,7 +149,7 @@
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx1KGaiCRpwHMrJBn1ifwaXK8nfukaYcmDXKxNPGhtVTozZ-nNcAL01CXrx3pU9-Q9g/exec";
+    const API_URL = "https://script.google.com/macros/s/SEU-LINK-AQUI/exec"; // Substitua com seu link novo
 
     async function carregarProdutos() {
       try {
