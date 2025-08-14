@@ -248,11 +248,14 @@
 
     async function carregarProdutos() {
       try {
-        const resposta = await fetch(API_URL);
+        const resposta = await fetch(API_URL, { mode: "cors" });
+        if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
         const html = await resposta.text();
         document.getElementById("produtos").innerHTML = html;
       } catch (erro) {
-        document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
+        console.error("Erro ao buscar produtos:", erro);
+        document.getElementById("produtos").innerHTML =
+          "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
       }
     }
 
