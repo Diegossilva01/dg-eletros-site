@@ -3,66 +3,216 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DG Eletros</title>
+  <title>CellTech Panamby</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* Seu CSS igual ao que você já tinha */
-    body { font-family: Arial, sans-serif; background: #111; color: #fff; margin: 0; }
-    header { background-color: #f4a300; padding: 20px; text-align: center; }
-    header h1 { font-size: 36px; margin: 0; }
-    .filtro-categorias { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; background: #222; padding: 10px; }
-    .filtro-categorias button { background: #f4a300; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-    #produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px; }
-    .produto { background: #1f1f1f; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.6); overflow: hidden; }
-    .produto img { width: 100%; height: 200px; object-fit: contain; background: #000; }
-    .info { padding: 15px; }
-    .preco { font-size: 1.2em; font-weight: bold; color: #fff; }
-    .whatsapp { display: inline-block; margin-top: 10px; background: #25d366; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background-color: #0e0e0e; color: #fff; }
+
+    header {
+      background-color: #000;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
+
+    header img {
+      max-width: 220px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 16px;
+      color: #f4a300;
+    }
+
+    #busca {
+      text-align: center;
+      padding: 20px;
+      background-color: #1a1a1a;
+    }
+
+    #busca input {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 25px;
+      border: none;
+    }
+
+    .filtro-categorias {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 10px;
+      background-color: #111;
+    }
+
+    .filtro-categorias button {
+      background-color: #f4a300;
+      color: #000;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .filtro-categorias button:hover {
+      background-color: #e69300;
+    }
+
+    #produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 25px;
+      padding: 30px;
+    }
+
+    .produto {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s;
+    }
+
+    .produto:hover {
+      transform: translateY(-5px);
+    }
+
+    .produto img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .info {
+      padding: 15px;
+    }
+
+    .info h3 {
+      font-size: 18px;
+      color: #f4a300;
+      margin-bottom: 8px;
+    }
+
+    .info p {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #ccc;
+    }
+
+    .preco {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .classificacao {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .classificacao.a { color: #4caf50; }
+    .classificacao.b { color: #ff9800; }
+
+    .whatsapp {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #25D366;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .whatsapp:hover {
+      background-color: #128c7e;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 14px;
+      color: #aaa;
+      background-color: #000;
+    }
+
+    footer a {
+      color: #f4a300;
+      text-decoration: none;
+    }
+
+    .classificacao-info {
+      background-color: #f4a300;
+      color: #000;
+      padding: 30px 20px;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .classificacao-info h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .classificacao-info p {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .azul { color: #0066ff; font-weight: bold; }
+    .amarelo { color: #d35400; font-weight: bold; }
   </style>
 </head>
 <body>
   <header>
-    <h1>DG Eletros</h1>
-    <p>Produtos com garantia | Novos e com pequenas avarias</p>
+    <img src="logo-nova.jpg" alt="CellTech Panamby Logo" />
+    
+    <p>Celulares, acessórios e assistência técnica com qualidade e confiança</p>
   </header>
 
-  <div id="busca" style="text-align:center; padding: 20px;">
-    <input type="text" placeholder="Buscar produto..." oninput="filtrarProdutos(this.value)" />
+  <div id="busca">
+    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
   </div>
 
-  <div class="filtro-categorias">
-    <button onclick="filtrarCategoria('todos')">Todos</button>
-    <button onclick="filtrarCategoria('geladeira')">Geladeiras</button>
-    <button onclick="filtrarCategoria('tv')">TVs</button>
-    <button onclick="filtrarCategoria('maquina')">Máquinas</button>
-  </div>
+  <div class="filtro-categorias" id="filtros"></div>
 
   <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
 
-  <footer style="text-align:center; padding:20px; background:#111; color:#888;">
-    © 2025 DG Eletros — Todos os direitos reservados
+  <div class="classificacao-info">
+    <h2><i class="fas fa-tags"></i> Classificação dos Produtos</h2>
+    <p><span class="azul">Classificação A:</span> produto em ótimo estado, poucas marcas de uso.</p>
+    <p><span class="amarelo">Classificação B:</span> com avarias ou riscos, mas funcionando normalmente.</p>
+  </div>
+
+  <footer>
+    © 2025 CellTech Panamby — Todos os direitos reservados<br>
+    <a href="https://instagram.com/celltechpanamby" target="_blank"><i class="fab fa-instagram"></i> @celltechpanamby</a>
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxPddP4C9wf2sLXZ638wJd2gMmcl_SjlTEAhmVS_f0M8AHARoW-PffD4jntG2GBhV4P/exec"; // Link publicado do Apps Script
-
-    async function carregarProdutos() {
-      try {
-        const resposta = await fetch(API_URL);
-        const html = await resposta.text();
-        document.getElementById("produtos").innerHTML = html;
-      } catch (erro) {
-        console.error("Erro ao carregar produtos", erro);
-        document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:red;'>Erro ao carregar produtos.</p>";
-      }
-    }
+    const API_URL = "https://script.google.com/macros/s/AKfycbxZ-9LT1naICjHDIT9ZZRGbmc4fmg3GOg7fDpr_Us2L7G7NfY2uBElYRkhDxg4Tp9nDEg/exec";
 
     function filtrarProdutos(termo) {
       termo = termo.toLowerCase();
       document.querySelectorAll(".produto").forEach(p => {
-        p.style.display = p.innerText.toLowerCase().includes(termo) ? "block" : "none";
+        const texto = p.innerText.toLowerCase();
+        p.style.display = texto.includes(termo) ? "block" : "none";
       });
     }
 
@@ -71,6 +221,40 @@
         const cat = p.getAttribute("data-categoria") || "";
         p.style.display = (categoria === "todos" || cat === categoria) ? "block" : "none";
       });
+    }
+
+    function gerarFiltros() {
+      const categorias = new Set();
+      document.querySelectorAll(".produto").forEach(p => {
+        const cat = p.getAttribute("data-categoria");
+        if (cat) categorias.add(cat);
+      });
+
+      const container = document.getElementById("filtros");
+      container.innerHTML = "";
+
+      const botaoTodos = document.createElement("button");
+      botaoTodos.textContent = "Todos";
+      botaoTodos.onclick = () => filtrarCategoria('todos');
+      container.appendChild(botaoTodos);
+
+      categorias.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        btn.onclick = () => filtrarCategoria(cat);
+        container.appendChild(btn);
+      });
+    }
+
+    async function carregarProdutos() {
+      try {
+        const resposta = await fetch(API_URL);
+        const html = await resposta.text();
+        document.getElementById("produtos").innerHTML = html;
+        gerarFiltros();
+      } catch (erro) {
+        document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
+      }
     }
 
     carregarProdutos();
