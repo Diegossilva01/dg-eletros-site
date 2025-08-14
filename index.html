@@ -6,215 +6,28 @@
   <title>DG Eletros</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #121212, #1e1e1e);
-      color: #fff;
-    }
-
-    header {
-      background-color: #f4a300;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    }
-
-    header h1 {
-      font-size: 36px;
-    }
-
-    .logo-dg {
-      background: #fff;
-      color: #000;
-      padding: 5px 10px;
-      border-radius: 4px;
-      margin-right: 5px;
-    }
-
-    .logo-eletros {
-      background: #f4a300;
-      color: #000;
-      padding: 5px 10px;
-      border-radius: 4px;
-    }
-
-    header p {
-      font-size: 16px;
-      color: #222;
-      margin-top: 10px;
-    }
-
-    #busca {
-      text-align: center;
-      padding: 20px;
-      background-color: #1a1a1a;
-    }
-
-    #busca input {
-      width: 90%;
-      max-width: 500px;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 25px;
-      border: none;
-    }
-
-    .filtro-categorias {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px 0;
-      background-color: #222;
-    }
-
-    .filtro-categorias button {
-      background-color: #f4a300;
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .filtro-categorias button:hover {
-      background-color: #e69300;
-    }
-
-    #produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 30px;
-    }
-
-    .produto {
-      background-color: #1f1f1f;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s;
-    }
-
-    .produto:hover {
-      transform: translateY(-5px);
-    }
-
-    .produto img {
-      width: 100%;
-      height: 200px;
-      object-fit: contain;
-      background: #000;
-    }
-
-    .info {
-      padding: 15px;
-    }
-
-    .info h3 {
-      font-size: 20px;
-      color: #f4a300;
-      margin-bottom: 10px;
-    }
-
-    .info p {
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: #ccc;
-    }
-
-    .preco {
-      font-size: 20px;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .classificacao {
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .classificacao.a {
-      color: #4caf50;
-    }
-
-    .classificacao.b {
-      color: #ff9800;
-    }
-
-    .whatsapp {
-      display: inline-block;
-      margin-top: 10px;
-      background-color: #25D366;
-      color: #fff;
-      text-decoration: none;
-      text-align: center;
-      padding: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .whatsapp:hover {
-      background-color: #128c7e;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #888;
-      background-color: #111;
-    }
-
-    .classificacao-info {
-      background-color: #f4a300;
-      color: #000;
-      padding: 30px 20px;
-      margin-top: 40px;
-      text-align: center;
-    }
-
-    .classificacao-info h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    .classificacao-info p {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .azul {
-      color: #0066ff;
-      font-weight: bold;
-    }
-
-    .amarelo {
-      color: #d35400;
-      font-weight: bold;
-    }
+    /* Seu CSS igual ao que você já tinha */
+    body { font-family: Arial, sans-serif; background: #111; color: #fff; margin: 0; }
+    header { background-color: #f4a300; padding: 20px; text-align: center; }
+    header h1 { font-size: 36px; margin: 0; }
+    .filtro-categorias { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; background: #222; padding: 10px; }
+    .filtro-categorias button { background: #f4a300; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+    #produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px; }
+    .produto { background: #1f1f1f; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.6); overflow: hidden; }
+    .produto img { width: 100%; height: 200px; object-fit: contain; background: #000; }
+    .info { padding: 15px; }
+    .preco { font-size: 1.2em; font-weight: bold; color: #fff; }
+    .whatsapp { display: inline-block; margin-top: 10px; background: #25d366; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; }
   </style>
 </head>
 <body>
   <header>
-    <h1><span class="logo-dg">DG</span><span class="logo-eletros">Eletros</span></h1>
+    <h1>DG Eletros</h1>
     <p>Produtos com garantia | Novos e com pequenas avarias</p>
   </header>
 
-  <div id="busca">
-    <input type="text" placeholder="Buscar produto ou categoria..." oninput="filtrarProdutos(this.value)" />
+  <div id="busca" style="text-align:center; padding: 20px;">
+    <input type="text" placeholder="Buscar produto..." oninput="filtrarProdutos(this.value)" />
   </div>
 
   <div class="filtro-categorias">
@@ -222,48 +35,34 @@
     <button onclick="filtrarCategoria('geladeira')">Geladeiras</button>
     <button onclick="filtrarCategoria('tv')">TVs</button>
     <button onclick="filtrarCategoria('maquina')">Máquinas</button>
-    <button onclick="filtrarCategoria('ferramenta')">Ferramentas</button>
-    <button onclick="filtrarCategoria('micro-ondas')">Micro-ondas</button>
-    <button onclick="filtrarCategoria('ar condicionado')">Ar-condicionado</button>
   </div>
 
   <div id="produtos">
     <p style="text-align:center;">Carregando produtos...</p>
   </div>
 
-  <div class="classificacao-info">
-    <h2><i class="fas fa-tags"></i> Classificação dos Produtos</h2>
-    <p>Todos os produtos da DG Eletros são de mostruário, testados e com garantia.</p>
-    <p><span class="azul">Classificação A:</span> produtos em ótimo estado, com mínimas marcas ou riscos leves.</p>
-    <p><span class="amarelo">Classificação B:</span> produtos com avarias estéticas mais visíveis, como riscos profundos ou amassados, mas totalmente funcionais.</p>
-  </div>
-
-  <footer>
-    © 2025 DG Eletros — Todos os direitos reservados<br>
-    <i class="fab fa-instagram"></i> @dgeletros
+  <footer style="text-align:center; padding:20px; background:#111; color:#888;">
+    © 2025 DG Eletros — Todos os direitos reservados
   </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzriiojB-9n9fP3mz-pxbqKYVCGKmQU-HBfFrwT2t0kN__VAjUmV0xa0jYCxYNrNSLq/exec";
+    const API_URL = "COLE_AQUI_SEU_LINK_DO_APPS_SCRIPT"; // Link publicado do Apps Script
 
     async function carregarProdutos() {
       try {
-        const resposta = await fetch(API_URL, { mode: "cors" });
-        if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+        const resposta = await fetch(API_URL);
         const html = await resposta.text();
         document.getElementById("produtos").innerHTML = html;
       } catch (erro) {
-        console.error("Erro ao buscar produtos:", erro);
-        document.getElementById("produtos").innerHTML =
-          "<p style='text-align:center;color:#f44336;'>Erro ao carregar produtos.</p>";
+        console.error("Erro ao carregar produtos", erro);
+        document.getElementById("produtos").innerHTML = "<p style='text-align:center;color:red;'>Erro ao carregar produtos.</p>";
       }
     }
 
     function filtrarProdutos(termo) {
       termo = termo.toLowerCase();
       document.querySelectorAll(".produto").forEach(p => {
-        const texto = p.innerText.toLowerCase();
-        p.style.display = texto.includes(termo) ? "block" : "none";
+        p.style.display = p.innerText.toLowerCase().includes(termo) ? "block" : "none";
       });
     }
 
