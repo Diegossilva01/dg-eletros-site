@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DG Eletros: eletrodomésticos e eletrônicos de logística reversa, selecionados, testados e com excelente custo-benefício.">
+  <meta name="theme-color" content="#111111">
+  <title>DG Eletros | Economia de verdade em eletros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="topbar"><i class="fa-solid fa-shield-halved"></i> Produtos selecionados, testados e com excelente custo-benefício</div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" aria-label="DG Eletros">
+        <span class="brand-dg">DG</span><span class="brand-eletros">ELETROS</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a href="#produtos-area">Produtos</a>
+        <a href="#logistica">Logística reversa</a>
+        <a href="#classificacoes">Classificações</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <a class="header-cta" href="#produtos-area"><i class="fa-solid fa-bag-shopping"></i> Ver ofertas</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow"><i class="fa-solid fa-bolt"></i> Oportunidades que cabem no seu bolso</span>
+          <h1>Eletros com preço baixo e procedência.</h1>
+          <p>Produtos de logística reversa selecionados, classificados e disponibilizados com transparência para você economizar de verdade.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#produtos-area">Ver produtos disponíveis <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="btn btn-secondary" href="#logistica">Entenda como funciona</a>
+          </div>
+          <div class="hero-trust">
+            <span><i class="fa-solid fa-circle-check"></i> Produtos avaliados</span>
+            <span><i class="fa-solid fa-tags"></i> Classificação clara</span>
+            <span><i class="fa-solid fa-headset"></i> Atendimento rápido</span>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon"><i class="fa-solid fa-box-open"></i></div>
+          <span>Economize comprando melhor</span>
+          <strong>Produtos com preços especiais no PIX</strong>
+          <p>Consulte as condições e fale com nossa equipe para garantir sua oferta.</p>
+          <div class="hero-badge">ESTOQUE LIMITADO</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits">
+      <div class="container benefits-grid">
+        <article><i class="fa-solid fa-magnifying-glass"></i><div><strong>Compra transparente</strong><span>Informações claras sobre cada item.</span></div></article>
+        <article><i class="fa-solid fa-percent"></i><div><strong>Preço competitivo</strong><span>Condições especiais para pagamento no PIX.</span></div></article>
+        <article><i class="fa-solid fa-mobile-screen-button"></i><div><strong>Atendimento fácil</strong><span>Fale diretamente com nossa equipe.</span></div></article>
+        <article><i class="fa-solid fa-box"></i><div><strong>Estoque atualizado</strong><span>Produtos carregados diretamente da planilha.</span></div></article>
+      </div>
+    </section>
+
+
+    <section class="promo-section" id="ofertas" hidden>
+      <div class="container">
+        <div class="promo-heading">
+          <div>
+            <span class="section-kicker"><i class="fa-solid fa-fire"></i> OFERTAS EM DESTAQUE</span>
+            <h2>Ofertas da semana</h2>
+            <p>Produtos marcados como <strong>SIM</strong> na coluna Promoção da planilha aparecem automaticamente aqui.</p>
+          </div>
+          <div class="promo-controls">
+            <button type="button" id="promoPrev" aria-label="Oferta anterior"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" id="promoNext" aria-label="Próxima oferta"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <div class="promo-carousel" id="promoCarousel" aria-live="polite"></div>
+        <div class="promo-dots" id="promoDots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="catalog-section" id="produtos-area">
+      <div class="container">
+        <div class="section-heading catalog-heading">
+          <div>
+            <span class="section-kicker">NOSSO CATÁLOGO</span>
+            <h2>Encontre o produto ideal</h2>
+            <p>Busque pelo nome, marca, modelo, categoria ou classificação.</p>
+          </div>
+          <div class="result-count" id="resultCount" aria-live="polite">Carregando produtos...</div>
+        </div>
+
+        <div class="search-panel">
+          <label class="search-box" for="searchInput">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" type="search" placeholder="Ex.: geladeira, Samsung, TV, classificação A..." autocomplete="off">
+            <button id="clearSearch" type="button" aria-label="Limpar busca"><i class="fa-solid fa-xmark"></i></button>
+          </label>
+          <div class="category-filters" id="categoryFilters" role="group" aria-label="Filtrar por categoria">
+            <button class="active" data-category="todos">Todos</button>
+          </div>
+        </div>
+
+        <div id="produtos" class="products-grid" aria-live="polite">
+          <div class="loading-state"><span class="spinner"></span><strong>Carregando oportunidades...</strong><small>Buscando produtos disponíveis</small></div>
+        </div>
+        <div id="emptyState" class="empty-state" hidden>
+          <i class="fa-solid fa-box-open"></i>
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente buscar por outro nome ou selecionar outra categoria.</p>
+          <button type="button" id="resetFilters">Ver todos os produtos</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="reverse-section" id="logistica">
+      <div class="container reverse-grid">
+        <div class="reverse-visual">
+          <div class="reverse-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <div class="mini-card one"><i class="fa-solid fa-store"></i> Grandes varejistas</div>
+          <div class="mini-card two"><i class="fa-solid fa-clipboard-check"></i> Triagem e classificação</div>
+          <div class="mini-card three"><i class="fa-solid fa-cart-shopping"></i> Economia para você</div>
+        </div>
+        <div class="reverse-copy">
+          <span class="section-kicker">ENTENDA A ORIGEM</span>
+          <h2>O que é logística reversa?</h2>
+          <p>São produtos que retornam das operações de grandes varejistas por motivos como desistência de compra, embalagem avariada, troca, mostruário ou pequenas marcas estéticas.</p>
+          <p>Na DG Eletros, os itens passam por triagem e recebem uma classificação para que você saiba exatamente o padrão do produto antes da compra.</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Preços mais acessíveis que os do varejo tradicional</li>
+            <li><i class="fa-solid fa-check"></i> Aproveitamento de produtos e redução de desperdício</li>
+            <li><i class="fa-solid fa-check"></i> Informações claras para uma compra consciente</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="classification-section" id="classificacoes">
+      <div class="container">
+        <div class="section-heading centered">
+          <span class="section-kicker">TRANSPARÊNCIA EM PRIMEIRO LUGAR</span>
+          <h2>Entenda as classificações</h2>
+          <p>Cada produto é identificado de acordo com seu estado estético e funcional.</p>
+        </div>
+        <div class="classification-grid">
+          <article class="classification-card class-a">
+            <div class="classification-label">A</div>
+            <div><span class="classification-title">Classificação A</span><h3>Ótimo estado geral</h3></div>
+            <p>Produtos em excelente estado, podendo apresentar embalagem danificada, sinais mínimos de manuseio ou pequenos detalhes estéticos.</p>
+            <ul><li><i class="fa-solid fa-check"></i> Excelente aparência</li><li><i class="fa-solid fa-check"></i> Pequenas marcas eventuais</li><li><i class="fa-solid fa-check"></i> Melhor padrão estético</li></ul>
+          </article>
+          <article class="classification-card class-b">
+            <div class="classification-label">B</div>
+            <div><span class="classification-title">Classificação B</span><h3>Maior oportunidade</h3></div>
+            <p>Produtos que podem apresentar avarias estéticas mais aparentes, como riscos, amassados ou marcas de uso, com condição informada no anúncio.</p>
+            <ul><li><i class="fa-solid fa-check"></i> Preço ainda mais atrativo</li><li><i class="fa-solid fa-check"></i> Avarias estéticas visíveis</li><li><i class="fa-solid fa-check"></i> Ótimo custo-benefício</li></ul>
+          </article>
+        </div>
+        <p class="classification-note"><i class="fa-solid fa-circle-info"></i> Consulte sempre a descrição e as fotos de cada produto. As condições podem variar de item para item.</p>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <div class="container">
+        <div class="section-heading centered"><span class="section-kicker">SIMPLES E RÁPIDO</span><h2>Como comprar</h2></div>
+        <div class="steps-grid">
+          <article><span>1</span><i class="fa-solid fa-magnifying-glass"></i><h3>Escolha o produto</h3><p>Use a busca e os filtros para encontrar a melhor oportunidade.</p></article>
+          <article><span>2</span><i class="fa-brands fa-whatsapp"></i><h3>Fale com a equipe</h3><p>Clique no botão do produto e confirme disponibilidade e condições.</p></article>
+          <article><span>3</span><i class="fa-solid fa-credit-card"></i><h3>Escolha o pagamento</h3><p>Pague no PIX ou consulte as opções de parcelamento.</p></article>
+          <article><span>4</span><i class="fa-solid fa-face-smile"></i><h3>Pronto</h3><p>Finalize sua compra com segurança e atendimento personalizado.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+      <div class="container faq-grid">
+        <div><span class="section-kicker">PERGUNTAS FREQUENTES</span><h2>Tire suas dúvidas</h2><p>Reunimos as principais informações para facilitar sua compra.</p></div>
+        <div class="faq-list">
+          <details><summary>Os produtos são novos?<i class="fa-solid fa-plus"></i></summary><p>Os produtos são provenientes de logística reversa e podem ter origem em devoluções, mostruário, trocas, embalagem avariada ou outras situações descritas no anúncio.</p></details>
+          <details><summary>O que significam as classificações A e B?<i class="fa-solid fa-plus"></i></summary><p>A classificação indica principalmente o estado estético. A tende a apresentar menos marcas; B pode ter avarias mais aparentes e preço mais baixo.</p></details>
+          <details><summary>Como confirmo a disponibilidade?<i class="fa-solid fa-plus"></i></summary><p>Clique no botão de WhatsApp do produto desejado. Nossa equipe confirma o estoque e orienta sobre a compra.</p></details>
+          <details><summary>Posso pagar parcelado?<i class="fa-solid fa-plus"></i></summary><p>Sim. O site mostra uma simulação em até 12 vezes. Confirme as condições finais com o atendimento.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container final-cta-inner">
+        <div><span>OFERTAS ATUALIZADAS</span><h2>Encontre seu próximo eletro com economia.</h2></div>
+        <a class="btn btn-dark" href="#produtos-area">Explorar produtos <i class="fa-solid fa-arrow-up"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><a class="brand footer-brand" href="#inicio"><span class="brand-dg">DG</span><span class="brand-eletros">ELETROS</span></a><p>Economia, transparência e boas oportunidades em eletrodomésticos e eletrônicos.</p></div>
+      <div><strong>Navegação</strong><a href="#produtos-area">Produtos</a><a href="#logistica">Logística reversa</a><a href="#classificacoes">Classificações</a><a href="#faq">Perguntas frequentes</a></div>
+      <div><strong>Atendimento</strong><span><i class="fa-brands fa-whatsapp"></i> Consulte pelo botão do produto</span><span><i class="fa-brands fa-instagram"></i> @dgeletros</span></div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 DG Eletros. Todos os direitos reservados.</span><span>Imagens ilustrativas. Consulte as condições de cada produto.</span></div>
+  </footer>
+
+  <button class="back-top" id="backTop" aria-label="Voltar ao topo"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script>
+    // Integração original preservada: a planilha continua fornecendo imagens, produtos e preço PIX.
+    const API_URL = "https://script.google.com/macros/s/AKfycby36V3Jr02uhztaUA4HW4fMYmUbfdI8AVAVm9OWuweHW0i__GZ-pIK2Op3nDI7__wP_/exec";
+    const CARD_RATE = 1.15;
+    let activeCategory = "todos";
+    let activeSearch = "";
+
+    const productsContainer = document.getElementById("produtos");
+    const categoryFilters = document.getElementById("categoryFilters");
+    const emptyState = document.getElementById("emptyState");
+    const resultCount = document.getElementById("resultCount");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
+    const promoSection = document.getElementById("ofertas");
+    const promoCarousel = document.getElementById("promoCarousel");
+    const promoPrev = document.getElementById("promoPrev");
+    const promoNext = document.getElementById("promoNext");
+    const promoDots = document.getElementById("promoDots");
+    let promoTimer = null;
+
+    function normalizeText(value = "") {
+      return value.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
+
+    function slugCategory(value = "") {
+      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "outros";
+    }
+
+    function categoryLabel(value = "") {
+      const text = value.toString().trim();
+      if (!text) return "Outros";
+      return text.split(/\s+/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ")
+        .replace(/Eletroportatil(?:es)?/i, "Eletroportáteis")
+        .replace(/Ar Condicionado/i, "Ar-condicionado")
+        .replace(/Micro Ondas/i, "Micro-ondas");
+    }
+
+    function parseBRL(text) {
+      if (!text) return null;
+      const cleaned = String(text).replace(/R\$/gi, "").trim();
+      const matches = cleaned.match(/[0-9]{1,3}(?:\.[0-9]{3})*(?:,[0-9]{1,2})|[0-9]+(?:[.,][0-9]{1,2})?/g);
+      if (!matches?.length) return null;
+      let raw = matches[matches.length - 1];
+      if (raw.includes(",")) raw = raw.replace(/\./g, "").replace(",", ".");
+      const value = Number(raw);
+      return Number.isFinite(value) ? value : null;
+    }
+
+    function formatBRL(value) {
+      return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    function getCategory(card) {
+      const raw = card.dataset.categoriaNome || card.dataset.categoria || card.getAttribute("data-category") || "Outros";
+      return { raw: categoryLabel(raw), slug: slugCategory(raw) };
+    }
+
+    function isPromotion(card) {
+      const raw = [
+        card.dataset.promocao,
+        card.dataset.promotion,
+        card.dataset.oferta,
+        card.getAttribute("data-promocao"),
+        card.getAttribute("data-promotion"),
+        card.getAttribute("data-oferta")
+      ].filter(Boolean).join(" ");
+
+      const value = normalizeText(raw);
+      if (["sim", "true", "1", "yes", "oferta", "promocao"].includes(value)) return true;
+      if (card.classList.contains("produto-promocao") || card.classList.contains("promocao") || card.classList.contains("oferta")) return true;
+
+      const text = normalizeText(card.textContent || "");
+      return /(?:promocao|oferta)\s*[:=-]?\s*(?:sim|true|1)/.test(text);
+    }
+
+    function findPriceElement(card) {
+      const direct = card.querySelector(".original-price, .preco-original, .preco, .price, [data-preco], [data-price]");
+      if (direct) return direct;
+      const candidates = [...card.querySelectorAll("p, span, strong, div, h4, h5")]
+        .filter(el => !el.closest("a") && !el.closest(".payment-box") && !el.closest(".bloco-precos") && parseBRL(el.textContent) !== null)
+        .sort((a, b) => a.children.length - b.children.length || a.textContent.length - b.textContent.length);
+      return candidates[0] || null;
+    }
+
+    function ensureImageWrap(card, index, promotion) {
+      let wrap = card.querySelector(".product-image-wrap, .produto-imagem");
+      const img = card.querySelector("img");
+      if (!img) return;
+      img.loading = index < 4 ? "eager" : "lazy";
+      img.decoding = "async";
+      img.alt = img.alt || "Produto DG Eletros";
+      if (!wrap) {
+        wrap = document.createElement("div");
+        wrap.className = "product-image-wrap";
+        img.parentElement.insertBefore(wrap, img);
+        wrap.appendChild(img);
+      } else {
+        wrap.classList.add("product-image-wrap");
+      }
+      let badge = wrap.querySelector(".stock-badge, .selo-promocao, .selo-oportunidade");
+      if (!badge) {
+        badge = document.createElement("span");
+        wrap.appendChild(badge);
+      }
+      badge.className = promotion ? "stock-badge promo-badge" : "stock-badge";
+      badge.innerHTML = promotion ? '<i class="fa-solid fa-fire"></i> Oferta' : '<i class="fa-solid fa-bolt"></i> Oportunidade';
+    }
+
+    function ensurePayment(card) {
+      if (card.querySelector(".bloco-precos")) {
+        card.querySelector(".bloco-precos").classList.add("payment-box");
+        return;
+      }
+      if (card.querySelector(".payment-box")) return;
+      const priceEl = findPriceElement(card);
+      const pixValue = priceEl ? parseBRL(priceEl.textContent) : null;
+      if (!priceEl || !pixValue) return;
+      priceEl.classList.add("original-price-hidden");
+      priceEl.setAttribute("aria-hidden", "true");
+      const cardValue = pixValue * CARD_RATE;
+      const installment = cardValue / 12;
+      const payment = document.createElement("div");
+      payment.className = "payment-box";
+      payment.innerHTML = `
+        <span class="payment-label">Preço no cartão</span>
+        <strong class="card-price">${formatBRL(cardValue)}</strong>
+        <span class="installment">ou 12x de <b>${formatBRL(installment)}</b> sem juros</span>
+        <div class="pix-offer">
+          <span class="pix-badge">15% OFF</span>
+          <strong class="pix-price">${formatBRL(pixValue)}</strong>
+          <span class="pix-label">no PIX</span>
+        </div>`;
+      const link = card.querySelector("a[href*='wa.me'], a[href*='whatsapp'], .whatsapp");
+      if (link) link.insertAdjacentElement("beforebegin", payment);
+      else priceEl.insertAdjacentElement("afterend", payment);
+    }
+
+    function upgradeProductCards() {
+      const cards = [...productsContainer.querySelectorAll(".produto")];
+      cards.sort((a, b) => Number(isPromotion(b)) - Number(isPromotion(a)));
+      cards.forEach(card => productsContainer.appendChild(card));
+
+      cards.forEach((card, index) => {
+        const category = getCategory(card);
+        const promotion = isPromotion(card);
+        card.dataset.categoryNormalized = category.slug;
+        card.dataset.categoryLabel = category.raw;
+        card.classList.toggle("produto-promocao", promotion);
+        card.setAttribute("tabindex", "0");
+        ensureImageWrap(card, index, promotion);
+        ensurePayment(card);
+
+        const link = card.querySelector("a[href*='wa.me'], a[href*='whatsapp'], .whatsapp");
+        if (link) {
+          link.classList.add("product-cta");
+          link.innerHTML = '<i class="fa-brands fa-whatsapp"></i><span>Comprar pelo WhatsApp</span>';
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
+      });
+    }
+
+    function buildPromoCarousel() {
+      const promotions = [...productsContainer.querySelectorAll(".produto")].filter(isPromotion);
+      promoCarousel.innerHTML = "";
+      promoDots.innerHTML = "";
+
+      if (!promotions.length) {
+        promoSection.hidden = true;
+        if (promoTimer) clearInterval(promoTimer);
+        return;
+      }
+
+      promoSection.hidden = false;
+      promotions.forEach((card, index) => {
+        const clone = card.cloneNode(true);
+        clone.hidden = false;
+        clone.removeAttribute("tabindex");
+        clone.classList.add("promo-slide");
+        clone.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+        promoCarousel.appendChild(clone);
+
+        const dot = document.createElement("span");
+        if (index === 0) dot.classList.add("active");
+        promoDots.appendChild(dot);
+      });
+
+      const slides = [...promoCarousel.querySelectorAll(".promo-slide")];
+      const getStep = () => {
+        const first = slides[0];
+        if (!first) return promoCarousel.clientWidth;
+        return first.getBoundingClientRect().width + parseFloat(getComputedStyle(promoCarousel).gap || 0);
+      };
+
+      const updateDots = () => {
+        const step = Math.max(getStep(), 1);
+        const index = Math.min(slides.length - 1, Math.round(promoCarousel.scrollLeft / step));
+        [...promoDots.children].forEach((dot, i) => dot.classList.toggle("active", i === index));
+      };
+
+      const move = direction => {
+        const max = promoCarousel.scrollWidth - promoCarousel.clientWidth;
+        let target = promoCarousel.scrollLeft + direction * getStep();
+        if (direction > 0 && promoCarousel.scrollLeft >= max - 8) target = 0;
+        if (direction < 0 && promoCarousel.scrollLeft <= 8) target = max;
+        promoCarousel.scrollTo({ left: target, behavior: "smooth" });
+      };
+
+      promoPrev.onclick = () => move(-1);
+      promoNext.onclick = () => move(1);
+      promoCarousel.onscroll = updateDots;
+
+      if (promoTimer) clearInterval(promoTimer);
+      if (promotions.length > 1) {
+        promoTimer = setInterval(() => move(1), 4500);
+        promoSection.onmouseenter = () => clearInterval(promoTimer);
+        promoSection.onmouseleave = () => { promoTimer = setInterval(() => move(1), 4500); };
+      }
+    }
+
+    function buildCategoryFilters() {
+      const cards = [...productsContainer.querySelectorAll(".produto")];
+      const map = new Map();
+      let promoCount = 0;
+      cards.forEach(card => {
+        const category = getCategory(card);
+        map.set(category.slug, category.raw);
+        if (isPromotion(card)) promoCount++;
+      });
+
+      categoryFilters.innerHTML = '<button class="active" data-category="todos">Todos</button>';
+      if (promoCount) categoryFilters.insertAdjacentHTML("beforeend", '<button data-category="promocao"><i class="fa-solid fa-fire"></i> Ofertas</button>');
+      [...map.entries()].sort((a, b) => a[1].localeCompare(b[1], "pt-BR")).forEach(([slug, label]) => {
+        categoryFilters.insertAdjacentHTML("beforeend", `<button data-category="${slug}">${label}</button>`);
+      });
+    }
+
+    function applyFilters() {
+      const cards = [...productsContainer.querySelectorAll(".produto")];
+      let visible = 0;
+      const search = normalizeText(activeSearch);
+      cards.forEach(card => {
+        const text = normalizeText(`${card.innerText} ${card.dataset.categoria || ""} ${card.dataset.categoryLabel || ""}`);
+        const category = card.dataset.categoryNormalized || getCategory(card).slug;
+        const matchSearch = !search || text.includes(search);
+        const matchCategory = activeCategory === "todos" || (activeCategory === "promocao" ? isPromotion(card) : category === activeCategory);
+        const show = matchSearch && matchCategory;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      resultCount.textContent = cards.length ? `${visible} ${visible === 1 ? "produto encontrado" : "produtos encontrados"}` : "Nenhum produto disponível";
+      emptyState.hidden = visible !== 0;
+    }
+
+    function carregarProdutos() {
+      return new Promise((resolve, reject) => {
+        const callbackName = `dgProdutosCallback_${Date.now()}`;
+        const script = document.createElement("script");
+        const timeout = setTimeout(() => {
+          cleanup();
+          reject(new Error("Tempo esgotado ao carregar produtos"));
+        }, 15000);
+
+        function cleanup() {
+          clearTimeout(timeout);
+          script.remove();
+          try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+        }
+
+        window[callbackName] = function(payload) {
+          try {
+            if (!payload || payload.ok !== true || typeof payload.html !== "string") {
+              throw new Error(payload?.erro || "Resposta inválida da planilha");
+            }
+
+            productsContainer.innerHTML = payload.html;
+            upgradeProductCards();
+            buildPromoCarousel();
+            buildCategoryFilters();
+            applyFilters();
+            cleanup();
+            resolve();
+          } catch (erro) {
+            cleanup();
+            reject(erro);
+          }
+        };
+
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("Falha ao acessar o Google Apps Script"));
+        };
+
+        const separador = API_URL.includes("?") ? "&" : "?";
+        script.src = `${API_URL}${separador}callback=${encodeURIComponent(callbackName)}&v=${Date.now()}`;
+        document.head.appendChild(script);
+      }).catch(erro => {
+        console.error(erro);
+        productsContainer.innerHTML = '<div class="error-state"><i class="fa-solid fa-triangle-exclamation"></i><h3>Não foi possível carregar os produtos</h3><p>Confira se o Code.gs foi salvo e implantado como nova versão.</p><button onclick="carregarProdutos()">Tentar novamente</button></div>';
+        resultCount.textContent = "Falha no carregamento";
+      });
+    }
+
+    searchInput.addEventListener("input", event => {
+      activeSearch = event.target.value;
+      clearSearch.classList.toggle("visible", Boolean(activeSearch));
+      applyFilters();
+    });
+
+    clearSearch.addEventListener("click", () => {
+      searchInput.value = ""; activeSearch = ""; clearSearch.classList.remove("visible"); searchInput.focus(); applyFilters();
+    });
+
+    categoryFilters.addEventListener("click", event => {
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+      categoryFilters.querySelectorAll("button").forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+      activeCategory = button.dataset.category;
+      applyFilters();
+    });
+
+    document.getElementById("resetFilters").addEventListener("click", () => {
+      activeSearch = ""; activeCategory = "todos"; searchInput.value = ""; clearSearch.classList.remove("visible");
+      categoryFilters.querySelectorAll("button").forEach(btn => btn.classList.toggle("active", btn.dataset.category === "todos"));
+      applyFilters();
+    });
+
+    const backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", () => backTop.classList.toggle("show", window.scrollY > 700), { passive: true });
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    carregarProdutos();
+  </script>
+</body>
+</html>
