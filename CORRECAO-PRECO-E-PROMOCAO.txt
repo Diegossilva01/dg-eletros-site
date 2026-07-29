@@ -1,0 +1,12 @@
+CORREÇÕES DESTA VERSÃO
+
+1. Edição do preço usa também a linha real da planilha, não apenas o ID.
+2. O preço é gravado diretamente na coluna Preço e formatado como moeda.
+3. Colunas duplicadas não sobrescrevem mais Preço ou Promoção durante a leitura.
+4. A promoção passa a ser lida corretamente pelo catálogo e pelo carrossel.
+5. Removida a validação do painel que gerava erro falso após salvar a promoção.
+
+ATUALIZAÇÃO
+- Substitua Code.gs e implante como Nova versão.
+- Substitua admin.js no GitHub.
+- Substitua index.html para garantir que o catálogo use esta mesma versão.

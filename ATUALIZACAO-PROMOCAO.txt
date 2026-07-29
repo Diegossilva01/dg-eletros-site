@@ -1,0 +1,10 @@
+ATUALIZAÇÃO — PROMOÇÃO DA SEMANA
+
+1. Substitua o Code.gs pelo arquivo deste projeto.
+2. No Apps Script, atualize a implantação existente como Nova versão.
+3. Atualize no GitHub os arquivos admin.js e admin.css.
+4. Na tela Produtos, use “Colocar em promoção”.
+5. O sistema grava “Sim” na coluna Promoção e o produto aparece automaticamente no carrossel do topo.
+6. Use “Remover promoção” para retirá-lo do carrossel.
+
+Somente o administrador tem acesso a esse botão.
