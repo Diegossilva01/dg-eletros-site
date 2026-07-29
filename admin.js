@@ -1,4 +1,4 @@
-const API_URL="COLE_AQUI_O_LINK_DO_APPS_SCRIPT";
+const API_URL="https://script.google.com/macros/s/AKfycbwbh1LHJyEVyV41q_7u5U3crbZ-zGIZKeu4gWuaOpTNKykHeAeUpDnIkS62ZEDzt4EG/exec";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
