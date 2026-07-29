@@ -1,0 +1,13 @@
+CORREÇÃO DA CONFIGURAÇÃO
+
+O configurarSistema() foi otimizado para atualizar todos os produtos existentes em uma única gravação na planilha.
+Antes, ele alterava célula por célula e podia parecer travado quando havia muitos produtos.
+
+PASSOS:
+1. Substitua o Code.gs pelo arquivo deste projeto.
+2. Clique em Executar > configurarSistema.
+3. Autorize o acesso, caso seja solicitado.
+4. Aguarde a mensagem "Sistema configurado".
+5. Faça uma nova implantação do aplicativo da web.
+
+Os produtos existentes não serão apagados.
