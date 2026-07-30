@@ -1,0 +1,16 @@
+PLANILHA CONFIGURADA
+
+Este projeto foi conectado diretamente à planilha:
+https://docs.google.com/spreadsheets/d/1FCiKWKy_DMa3Dwj12cCD2KM_qYFuTnRlKSQ9fM2FleA/edit
+
+ID utilizado:
+1FCiKWKy_DMa3Dwj12cCD2KM_qYFuTnRlKSQ9fM2FleA
+
+Todos os produtos, vendas e usuários agora serão lidos e salvos nesta mesma planilha.
+
+PASSOS:
+1. Substitua o Code.gs do Apps Script pelo arquivo deste projeto.
+2. Execute configurarSistema() uma vez.
+3. Autorize o acesso à planilha e ao Google Drive.
+4. Crie uma nova implantação como Aplicativo da Web.
+5. Atualize o link /exec no admin.js e no site, caso a implantação tenha mudado.
