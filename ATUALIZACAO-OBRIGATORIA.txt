@@ -1,0 +1,26 @@
+CORREÇÃO: SITE E PAINEL USANDO A MESMA API E A MESMA PLANILHA
+
+Planilha configurada:
+https://docs.google.com/spreadsheets/d/1FCiKWKy_DMa3Dwj12cCD2KM_qYFuTnRlKSQ9fM2FleA/edit
+
+IMPORTANTE: faça a atualização no MESMO projeto do Apps Script que já usa este endereço:
+https://script.google.com/macros/s/AKfycbwbh1LHJyEVyV41q_7u5U3crbZ-zGIZKeu4gWuaOpTNKykHeAeUpDnIkS62ZEDzt4EG/exec
+
+1. Abra esse projeto do Apps Script.
+2. Apague o código antigo e cole o Code.gs deste pacote.
+3. Execute configurarSistema() uma vez.
+4. Vá em Implantar > Gerenciar implantações.
+5. Clique no lápis da implantação EXISTENTE.
+6. Em Versão, escolha Nova versão e clique em Implantar.
+7. Não crie outro projeto e não troque a URL.
+8. Suba os arquivos do site no GitHub.
+
+Teste:
+Abra no navegador:
+https://script.google.com/macros/s/AKfycbwbh1LHJyEVyV41q_7u5U3crbZ-zGIZKeu4gWuaOpTNKykHeAeUpDnIkS62ZEDzt4EG/exec?acao=ping
+
+Deve aparecer um JSON contendo:
+- ok: true
+- planilhaId: 1FCiKWKy_DMa3Dwj12cCD2KM_qYFuTnRlKSQ9fM2FleA
+- abaProdutos: Produtos
+- totalProdutos: quantidade existente na planilha
