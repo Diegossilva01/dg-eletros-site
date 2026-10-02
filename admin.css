@@ -385,3 +385,5 @@ body.dark-theme .overtime-register .head,body.dark-theme .overtime-history .head
 .commission-cards.employee-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:900px){.commission-cards.employee-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.commission-cards.employee-summary{grid-template-columns:1fr}}
+
+.session-check-card{width:min(440px,calc(100% - 32px));border-radius:20px;text-align:center;gap:20px}.session-check-card .brand{justify-content:center}.session-check-card p{margin:0}
