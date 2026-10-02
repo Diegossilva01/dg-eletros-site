@@ -381,3 +381,7 @@ body.dark-theme .overtime-register .head,body.dark-theme .overtime-history .head
 .dark-theme .table-action.commission-approve{color:#86efac}
 .dark-theme .table-action.commission-reject{color:#fca5a5}
 
+
+.commission-cards.employee-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){.commission-cards.employee-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.commission-cards.employee-summary{grid-template-columns:1fr}}
