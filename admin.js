@@ -42,7 +42,7 @@ async function api(acao,dados={}){
   }finally{clearTimeout(timer)}
 }
 function hoje(){return new Date().toISOString().slice(0,10)}
-function parseMoney(v){return Number(String(v||'').replace(/R\$/g,'').replace(/\./g,'').replace(',','.').replace(/[^0-9.-]/g,''))||0}
+function parseMoney(v){if(typeof v==='number')return Number.isFinite(v)?v:0;let s=String(v??'').replace(/R\$/g,'').trim();if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(/^-?\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');return Number(s.replace(/[^0-9.-]/g,''))||0}
 function formObj(f){return Object.fromEntries(new FormData(f).entries())}
 function isAdmin(){return state.user?.perfil==='Administrador'}
 function isVendedor(){return ['Vendedora','Vendedor'].includes(state.user?.perfil)}
