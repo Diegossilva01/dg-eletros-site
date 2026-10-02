@@ -25,3 +25,11 @@ Novas fotos enviadas pelo painel ficam no Neon. Cada arquivo é limitado a 500 K
 - Só depois suspenda Apps Script/planilha como fonte de dados. Guarde a planilha original como backup privado.
 
 Este pacote prepara a migração, mas o banco e o domínio em produção só mudam quando o SQL privado é executado e o repositório é implantado na sua conta Vercel.
+
+## Sessões e uso simultâneo
+
+O painel recupera a sessão pelo cookie HttpOnly, mesmo sem a indicação do localStorage. Falhas temporárias de rede oferecem nova tentativa e não encerram o acesso. A sessão é renovada a cada requisição autenticada e expira após oito horas sem atividade. Cada login cria uma sessão própria; sair encerra apenas aquela sessão.
+
+Pagamentos de comissão usam uma transação com bloqueio por vendedora e conferência do saldo no banco. Alterar promoção, status ou aprovação de comissão modifica apenas os respectivos campos. Edições de produto incluem uma versão para recusar gravações desatualizadas e preservar o estoque movimentado por outra pessoa. A venda de estoque e os recebimentos já usam atualizações condicionais no PostgreSQL.
+
+Testes de sessão: `node --test tests/session.test.js`. O teste SQL opcional usa PGlite instalado separadamente: `PGLITE_MODULE=/caminho/node_modules/@electric-sql/pglite node --test tests/*.test.js`. Ele executa o SQL em PostgreSQL embarcado; não mede capacidade de usuários nem substitui um teste de carga no Neon de homologação.

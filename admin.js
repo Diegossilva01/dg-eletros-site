@@ -38,9 +38,30 @@ async function api(acao,dados={}){
   const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),API_TIMEOUT_MS);
   try{
     const resposta=await fetch(API_URL,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({acao,...dados}),signal:controller.signal});
-    const j=await resposta.json();if(!j.ok)throw new Error(j.erro||'Falha ao carregar os dados.');return j;
+    const j=await resposta.json();if(!j.ok){const err=new Error(j.erro||'Falha ao carregar os dados.');err.status=resposta.status;err.codigo=j.codigo;if(err.status===401&&acao!=='login')mostrarLoginExpirado();throw err}return j;
   }finally{clearTimeout(timer)}
 }
+
+function mostrarLoginExpirado(){
+  state.token='';state.user=null;safeStorage.removeItem('dge_token');
+  $('#sessionCheck').classList.add('hidden');$('#app').classList.add('hidden');$('#login').classList.remove('hidden');
+  $('#loginMsg').textContent='Sua sessão terminou. Entre novamente para continuar.';
+}
+async function restaurarSessao(){
+  $('#sessionCheck').classList.remove('hidden');$('#login').classList.add('hidden');
+  $('#sessionCheckMsg').textContent='Recuperando seu acesso...';$('#sessionRetry').classList.add('hidden');
+  for(let tentativa=0;tentativa<3;tentativa++){
+    try{const j=await api('verificarToken');state.token='session';state.user=j.usuario;safeStorage.setItem('dge_token','session');showApp();return}
+    catch(e){
+      if(e.status===401){$('#loginMsg').textContent='';return}
+      if(tentativa<2){await new Promise(resolve=>setTimeout(resolve,1000*(tentativa+1)));continue}
+      $('#sessionCheckMsg').textContent='Não foi possível conectar agora. Tente novamente para recuperar seu acesso.';
+      $('#sessionRetry').classList.remove('hidden');
+    }
+  }
+}
+$('#sessionRetry').onclick=restaurarSessao;
+
 function hoje(){return new Date().toISOString().slice(0,10)}
 function parseMoney(v){if(typeof v==='number')return Number.isFinite(v)?v:0;let s=String(v??'').replace(/R\$/g,'').trim();if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(/^-?\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');return Number(s.replace(/[^0-9.-]/g,''))||0}
 function formObj(f){return Object.fromEntries(new FormData(f).entries())}
@@ -141,9 +162,9 @@ async function pagarComissao(vendedora,disponivel,botao){
 }
 $('#recarregarComissoes').onclick=carregarComissoes;
 
-function showApp(){ $('#login').classList.add('hidden');$('#app').classList.remove('hidden');$('#userInfo').textContent=`${state.user.nome} • ${state.user.perfil}`;$$('.admin-only').forEach(x=>x.classList.toggle('hidden',!isAdmin()));$$('.reseller-only').forEach(x=>x.classList.toggle('hidden',!isRevendedor()));if(isRevendedor()){$$('aside .nav:not(.reseller-only)').forEach(x=>x.classList.add('hidden'));$$('.nav').forEach(x=>x.classList.remove('active'));const b=$('[data-page=revendedor]');b.classList.remove('hidden');b.classList.add('active');$$('.page').forEach(x=>x.classList.remove('active'));$('#page-revendedor').classList.add('active');$('#titulo').textContent='Catálogo de revenda';carregarCatalogoRevendedor()}else{restaurarPaginaAtiva();if(!safeStorage.getItem('dge_pagina_ativa'))carregarPagina('dashboard')}}
+function showApp(){ $('#sessionCheck').classList.add('hidden');$('#login').classList.add('hidden');$('#app').classList.remove('hidden');$('#userInfo').textContent=`${state.user.nome} • ${state.user.perfil}`;$$('.admin-only').forEach(x=>x.classList.toggle('hidden',!isAdmin()));$$('.reseller-only').forEach(x=>x.classList.toggle('hidden',!isRevendedor()));if(isRevendedor()){$$('aside .nav:not(.reseller-only)').forEach(x=>x.classList.add('hidden'));$$('.nav').forEach(x=>x.classList.remove('active'));const b=$('[data-page=revendedor]');b.classList.remove('hidden');b.classList.add('active');$$('.page').forEach(x=>x.classList.remove('active'));$('#page-revendedor').classList.add('active');$('#titulo').textContent='Catálogo de revenda';carregarCatalogoRevendedor()}else{restaurarPaginaAtiva();if(!safeStorage.getItem('dge_pagina_ativa'))carregarPagina('dashboard')}}
 $('#loginForm').onsubmit=async e=>{e.preventDefault();const d=formObj(e.currentTarget);$('#loginMsg').textContent='Entrando...';try{const j=await api('login',d);state.token=j.token;state.user=j.usuario;safeStorage.setItem('dge_token',state.token);showApp()}catch(err){$('#loginMsg').textContent=err.message}}
-$('#sair').onclick=async()=>{try{await api('sair')}finally{safeStorage.removeItem('dge_token');location.reload()}};$('#menu').onclick=()=>document.querySelector('aside').classList.toggle('open');
+$('#sair').onclick=async()=>{try{await api('sair')}finally{state.token='';state.user=null;safeStorage.removeItem('dge_token');location.reload()}};$('#menu').onclick=()=>document.querySelector('aside').classList.toggle('open');
 $$('.nav').forEach(b=>b.onclick=()=>{if(b.classList.contains('admin-only')&&!isAdmin())return;$$('.nav').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.page').forEach(x=>x.classList.remove('active'));$(`#page-${b.dataset.page}`).classList.add('active');$('#titulo').textContent=b.textContent.trim();document.querySelector('aside').classList.remove('open');carregarPagina(b.dataset.page)});
 const carregamentosPagina={dashboard:carregarDashboard,venda:carregarProdutos,vendas:carregarVendas,receber:carregarReceber,comissoes:carregarComissoes,'horas-extras':carregarHorasExtras,produtos:carregarProdutos,usuarios:carregarUsuarios,revendedor:carregarCatalogoRevendedor};
 const requisicoesPagina={};
@@ -199,7 +220,7 @@ window.imprimirRecibo=id=>{const v=state.vendas.find(x=>x.id===id);if(v)abrirRec
 window.excluirVenda=async id=>{if(!confirm('Excluir esta venda e devolver a quantidade ao estoque?'))return;const motivo=prompt('Motivo da exclusão:');if(!motivo)return;try{await api('excluirVenda',{id,motivo});await carregarTudo()}catch(e){alert(e.message)}}
 function abrirModal(html){$('#modalConteudo').innerHTML=html;$('#modal').classList.remove('hidden')}$('#fecharModal').onclick=()=>$('#modal').classList.add('hidden');$('#modal').onclick=e=>{if(e.target===$('#modal'))$('#modal').classList.add('hidden')}
 $('#novoProduto').onclick=()=>formProduto();window.editarProduto=id=>formProduto(state.produtos.find(p=>p.id===id));
-function formProduto(p={}){abrirModal(`<h2>${p.id?'Editar':'Novo'} produto</h2><form id="produtoForm" class="grid"><input type="hidden" name="id" value="${esc(p.id||'')}"><input type="hidden" name="linha" value="${esc(p.linha||'')}"><label>Nome do produto<input name="nome" required value="${esc(p.nome||'')}"></label><label>Categoria<select name="categoria">${['Geladeira','Lavadora','Fogão','Micro-ondas','TV','Ar-condicionado','Ferramenta','Portátil','Eletrônico','Outro'].map(x=>`<option ${p.categoria===x?'selected':''}>${x}</option>`).join('')}</select></label><label>Marca<input name="marca" value="${esc(p.marca||'')}"></label><label>Modelo<input name="modelo" value="${esc(p.modelo||'')}"></label><label>Classificação<select name="classificacao"><option ${p.classificacao==='A'?'selected':''}>A</option><option ${p.classificacao==='B'?'selected':''}>B</option></select></label><label>Preço no PIX<input name="preco" required value="${p.preco?Number(p.preco).toLocaleString('pt-BR',{minimumFractionDigits:2}):''}"></label><label>Preço para revendedor<input value="${money(p.precoRevenda||calcularPrecoRevendaFront(p.preco,p.categoria))}" readonly><small>Calculado automaticamente: 11% linha pesada e 18% linha leve.</small></label><label>Preço de custo (opcional)<input name="precoCusto" value="${p.precoCusto?Number(p.precoCusto).toLocaleString('pt-BR',{minimumFractionDigits:2}):''}" placeholder="Quanto foi pago no produto"></label><label>Quantidade<input type="number" name="quantidade" min="0" required value="${p.quantidade??1}"></label><label>Status<select name="status">${['Publicado','Oculto','Reservado'].map(x=>`<option ${p.status===x?'selected':''}>${x}</option>`).join('')}</select></label><label class="full">Descrição<textarea name="descricao" rows="3">${esc(p.descricao||'')}</textarea></label><label class="full">Comentário exclusivo para revendedor<textarea name="comentarioRevendedor" rows="3" placeholder="Informe avarias, peça trocada ou observação importante">${esc(p.comentarioRevendedor||'')}</textarea></label><label class="full">Fotos do produto<input type="file" name="fotos" accept="image/*" multiple><small>Até 6 fotos. Ao editar, novas fotos substituem as atuais.</small></label><div class="full preview">${(p.fotos||[]).map(x=>`<img src="${esc(x)}">`).join('')}</div><div class="full actions"><button class="primary">Salvar produto</button><span class="msg"></span></div></form>`);$('#produtoForm').onsubmit=salvarProduto}
+function formProduto(p={}){abrirModal(`<h2>${p.id?'Editar':'Novo'} produto</h2><form id="produtoForm" class="grid"><input type="hidden" name="id" value="${esc(p.id||'')}"><input type="hidden" name="linha" value="${esc(p.linha||'')}"><input type="hidden" name="versao" value="${esc(p.versao||'')}"><label>Nome do produto<input name="nome" required value="${esc(p.nome||'')}"></label><label>Categoria<select name="categoria">${['Geladeira','Lavadora','Fogão','Micro-ondas','TV','Ar-condicionado','Ferramenta','Portátil','Eletrônico','Outro'].map(x=>`<option ${p.categoria===x?'selected':''}>${x}</option>`).join('')}</select></label><label>Marca<input name="marca" value="${esc(p.marca||'')}"></label><label>Modelo<input name="modelo" value="${esc(p.modelo||'')}"></label><label>Classificação<select name="classificacao"><option ${p.classificacao==='A'?'selected':''}>A</option><option ${p.classificacao==='B'?'selected':''}>B</option></select></label><label>Preço no PIX<input name="preco" required value="${p.preco?Number(p.preco).toLocaleString('pt-BR',{minimumFractionDigits:2}):''}"></label><label>Preço para revendedor<input value="${money(p.precoRevenda||calcularPrecoRevendaFront(p.preco,p.categoria))}" readonly><small>Calculado automaticamente: 11% linha pesada e 18% linha leve.</small></label><label>Preço de custo (opcional)<input name="precoCusto" value="${p.precoCusto?Number(p.precoCusto).toLocaleString('pt-BR',{minimumFractionDigits:2}):''}" placeholder="Quanto foi pago no produto"></label><label>Quantidade<input type="number" name="quantidade" min="0" required value="${p.quantidade??1}"></label><label>Status<select name="status">${['Publicado','Oculto','Reservado'].map(x=>`<option ${p.status===x?'selected':''}>${x}</option>`).join('')}</select></label><label class="full">Descrição<textarea name="descricao" rows="3">${esc(p.descricao||'')}</textarea></label><label class="full">Comentário exclusivo para revendedor<textarea name="comentarioRevendedor" rows="3" placeholder="Informe avarias, peça trocada ou observação importante">${esc(p.comentarioRevendedor||'')}</textarea></label><label class="full">Fotos do produto<input type="file" name="fotos" accept="image/*" multiple><small>Até 6 fotos. Ao editar, novas fotos substituem as atuais.</small></label><div class="full preview">${(p.fotos||[]).map(x=>`<img src="${esc(x)}">`).join('')}</div><div class="full actions"><button class="primary">Salvar produto</button><span class="msg"></span></div></form>`);$('#produtoForm').onsubmit=salvarProduto}
 async function fileData(file){
   const ler=()=>new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
   if(!file.type.startsWith('image/')||file.type==='image/svg+xml')return {nome:file.name,data:await ler()};
@@ -288,7 +309,7 @@ window.excluirHoraExtra=async id=>{if(!confirm('Excluir este lançamento de hora
 
 iniciarTema();
 protegerSessaoEInterface();
-(async()=>{if(!state.token)return;try{const j=await api('verificarToken');state.user=j.usuario;showApp()}catch(e){safeStorage.removeItem('dge_token')}})();
+restaurarSessao();
 
 
 function normalizarTexto(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
