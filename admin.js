@@ -104,7 +104,9 @@ function badgeStatusComissao(status){
 async function carregarComissoes(){
   try{
     const j=await api('listarComissoes');
-    state.comissoes=j.itens||[];
+    state.comissoes=(j.itens||[]).filter(v=>isAdmin()||v.statusComissao==='Pendente'||(v.statusComissao==='Aprovada'&&Number(v.comissaoLiberada)>0));
+    $('.commission-cards').classList.toggle('employee-summary',!isAdmin());
+    $('#comissaoSaldoLabel').textContent=isAdmin()?'Saldo para pagar':'Saldo a receber';
     $('#comissaoLiberada').textContent=money(j.totalLiberado||0);
     $('#comissaoPendente').textContent=money(j.totalPendente||0);
     $('#comissaoPaga').textContent=money(j.totalPago||0);
@@ -113,10 +115,10 @@ async function carregarComissoes(){
     tbody.innerHTML=state.comissoes.map(v=>{
       const status=String(v.statusComissao||'Pendente');
       const acoes=isAdmin()?`<div class="commission-actions">${status!=='Aprovada'?`<button type="button" class="table-action commission-approve" onclick="alterarStatusComissao('${esc(v.id)}','Aprovada')"><i class="fa-solid fa-check"></i> Aprovar</button>`:''}${status!=='Recusada'?`<button type="button" class="table-action commission-reject" onclick="alterarStatusComissao('${esc(v.id)}','Recusada')"><i class="fa-solid fa-xmark"></i> Recusar</button>`:''}</div>`:'';
-      return `<tr><td>${esc(v.data)}</td><td>${esc(v.produto)}</td><td>${esc(v.cliente)}</td><td>${money(v.valor)}</td><td><strong>${money(v.comissaoGerada)}</strong></td><td>${badgeStatusComissao(status)}</td>${isAdmin()?`<td>${esc(v.vendedora)}</td><td>${acoes||'—'}</td>`:''}</tr>`;
+      return `<tr><td>${esc(v.data)}</td><td>${esc(v.produto)}</td><td>${esc(v.cliente)}</td><td>${money(v.valor)}</td><td><strong>${money(isAdmin()?v.comissaoGerada:(v.statusComissao==='Aprovada'?v.comissaoLiberada:v.comissaoPendente))}</strong></td><td>${badgeStatusComissao(status)}</td>${isAdmin()?`<td>${esc(v.vendedora)}</td><td>${acoes||'—'}</td>`:''}</tr>`;
     }).join('')||`<tr><td colspan="${isAdmin()?8:6}">Nenhuma comissão encontrada.</td></tr>`;
     const resumo=$('#resumoComissoesBody');
-    if(resumo)resumo.innerHTML=(j.resumoVendedores||[]).map(x=>`<tr><td>${esc(x.vendedora)}</td><td>${money(x.liberada)}</td><td>${money(x.pendente)}</td><td>${money(x.paga)}</td><td><strong>${money(x.saldoPagar)}</strong></td><td>${x.saldoPagar>0?`<button type="button" class="table-action action-pay" onclick="pagarComissao('${String(x.vendedora).replace(/'/g,"\\'")}',${Number(x.saldoPagar)||0})">Pagar comissão</button>`:'Sem valor aprovado'}</td></tr>`).join('')||'<tr><td colspan="6">Nenhuma comissão aprovada para pagamento.</td></tr>';
+    if(resumo)resumo.innerHTML=(j.resumoVendedores||[]).map(x=>`<tr><td>${esc(x.vendedora)}</td><td>${money(x.liberada)}</td><td>${money(x.pendente)}</td><td>${money(x.paga)}</td><td><strong>${money(x.saldoPagar)}</strong></td><td>${x.saldoPagar>0?`<button type="button" class="table-action action-pay" onclick="pagarComissao('${String(x.vendedora).replace(/'/g,"\\'")}',${Number(x.saldoPagar)||0},this)">Pagar comissão</button>`:'Sem valor aprovado'}</td></tr>`).join('')||'<tr><td colspan="6">Nenhuma comissão aprovada para pagamento.</td></tr>';
     const historico=$('#historicoComissoesBody');
     if(historico)historico.innerHTML=(j.pagamentos||[]).map(p=>`<tr><td>${esc(p.data)}</td><td>${esc(p.vendedora)}</td><td><strong>${money(p.valor)}</strong></td><td>${esc(p.referencia||'Pagamento de comissão')}</td><td>${esc(p.registradoPor||'—')}</td></tr>`).join('')||'<tr><td colspan="5">Nenhum pagamento de comissão registrado.</td></tr>';
   }catch(e){console.error(e);$('#comissoesBody').innerHTML='<tr><td colspan="'+(isAdmin()?8:6)+'">Falha ao carregar: '+esc(e.message)+' <button type="button" onclick="carregarComissoes()">Tentar novamente</button></td></tr>'}
@@ -127,11 +129,15 @@ async function alterarStatusComissao(vendaId,status){
   try{await api('alterarStatusComissao',{vendaId,status});await carregarComissoes()}catch(e){alert(e.message)}
 }
 window.alterarStatusComissao=alterarStatusComissao;
-async function pagarComissao(vendedora,disponivel){
+const pagamentosComissaoEmAndamento=new Set();
+async function pagarComissao(vendedora,disponivel,botao){
+  if(pagamentosComissaoEmAndamento.has(vendedora))return;
   const informado=prompt(`Valor da comissão para ${vendedora}:`,Number(disponivel).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
   if(informado===null)return;
   const valor=parseMoney(informado);if(!valor||valor<=0)return alert('Informe um valor válido.');
-  try{await api('registrarPagamentoComissao',{vendedora,valor,referencia:'Pagamento registrado pelo sistema'});alert('Pagamento da comissão registrado.');await carregarComissoes()}catch(e){alert(e.message)}
+  if(valor>Number(disponivel)+0.01)return alert('O valor é maior que a comissão disponível.');
+  pagamentosComissaoEmAndamento.add(vendedora);if(botao)botao.disabled=true;
+  try{await api('registrarPagamentoComissao',{vendedora,valor,referencia:'Pagamento registrado pelo sistema'});await carregarComissoes();alert('Pagamento da comissão registrado e saldo atualizado.')}catch(e){alert(e.message)}finally{pagamentosComissaoEmAndamento.delete(vendedora);if(botao)botao.disabled=false}
 }
 $('#recarregarComissoes').onclick=carregarComissoes;
 
