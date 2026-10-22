@@ -7,9 +7,10 @@
   <meta name="theme-color" content="#111111">
   <title>DG Eletros | Economia de verdade em eletros</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=apple-20261022">
 </head>
 <body>
+  <a class="skip-link" href="#produtos-area">Pular para os produtos</a>
   <div class="topbar"><i class="fa-solid fa-shield-halved"></i> Produtos selecionados, testados e com excelente custo-benefício</div>
 
   <header class="site-header">
@@ -44,13 +45,13 @@
     <section class="hero compact-hero" id="inicio">
       <div class="container">
         <div class="hero-banner compact-banner">
-          <img src="assets/Loja DG Eletros com eletrodomésticos e ofertas.png" alt="Eletrodomésticos disponíveis na DG Eletros">
+          <img src="assets/loja-dg-eletros.webp" alt="Imagem ilustrativa da loja DG Eletros com eletrodomésticos" width="1086" height="1448" fetchpriority="high" decoding="async">
           <div class="hero-overlay"></div>
           <div class="hero-copy">
             <span class="eyebrow">OFERTAS DA SEMANA</span>
-            <h1>Eletros selecionados. Economia de verdade.</h1>
+            <h1>Eletros selecionados.<br><span>Economia de verdade.</span></h1>
             <p>Produtos selecionados, condições claras e atendimento rápido.</p>
-            <a class="btn btn-primary" href="#produtos-area">Ver produtos</a>
+            <div class="hero-actions"><a class="btn btn-primary" href="#produtos-area">Explorar produtos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><a class="text-link" href="#classificacoes">Entenda as condições <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div><div class="hero-note"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Fotos e condições de cada item no catálogo.</div>
           </div>
           <div class="hero-mini-card"><i class="fa-solid fa-bolt"></i><div><small>Condição especial</small><strong>Desconto no PIX</strong></div></div>
         </div>
@@ -85,40 +86,20 @@
       </div>
     </section>
 
-    <section class="promo-mosaic">
-      <div class="container promo-mosaic-grid">
-        <article class="mosaic-card mosaic-main">
-          <div><span>SELEÇÃO ESPECIAL</span><h3>Produtos revisados com condições que valem a pena</h3><p>Veja fotos reais, classificação e condições antes de comprar.</p><a href="#produtos-area">Conferir produtos <i class="fa-solid fa-arrow-right"></i></a></div>
-          <i class="fa-solid fa-box-open mosaic-art"></i>
-        </article>
-        <article class="mosaic-card mosaic-pix"><div><span>PAGAMENTO</span><h3>Economize no PIX</h3><p>Consulte o melhor valor com nossa equipe.</p></div><i class="fa-brands fa-pix mosaic-art"></i></article>
-        <article class="mosaic-card mosaic-whats"><div><span>ATENDIMENTO</span><h3>Compra assistida</h3><p>Tire dúvidas e receba fotos pelo WhatsApp.</p></div><i class="fa-brands fa-whatsapp mosaic-art"></i></article>
-      </div>
-    </section>
-
-    <section class="trust-numbers">
-      <div class="container trust-grid">
-        <div><strong>Produtos reais</strong><span>Fotos e informações de cada item</span></div>
-        <div><strong>Classificação clara</strong><span>Você sabe o estado antes da compra</span></div>
-        <div><strong>Atendimento humano</strong><span>Negociação direta pelo WhatsApp</span></div>
-        <div><strong>Oportunidades únicas</strong><span>Estoque limitado e rotativo</span></div>
-      </div>
-    </section>
-
     <section class="promo-section" id="ofertas" hidden>
       <div class="container">
         <div class="promo-heading">
           <div>
             <span class="section-kicker"><i class="fa-solid fa-fire"></i> OFERTAS EM DESTAQUE</span>
             <h2>Ofertas da semana</h2>
-            <p>Produtos marcados como <strong>SIM</strong> na coluna Promoção da planilha aparecem automaticamente aqui.</p>
+            <p>Uma seleção de oportunidades para aproveitar. Confira as condições de cada produto.</p>
           </div>
-          <div class="promo-controls">
+          <div class="promo-controls"><button type="button" id="promoToggle" aria-label="Pausar rotação automática" aria-pressed="false"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>
             <button type="button" id="promoPrev" aria-label="Oferta anterior"><i class="fa-solid fa-chevron-left"></i></button>
             <button type="button" id="promoNext" aria-label="Próxima oferta"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
         </div>
-        <div class="promo-carousel" id="promoCarousel" aria-live="polite"></div>
+        <div class="promo-carousel" id="promoCarousel" role="region" aria-label="Produtos em oferta. Use as setas para navegar." tabindex="0"></div>
         <div class="promo-dots" id="promoDots" aria-hidden="true"></div>
       </div>
     </section>
@@ -137,7 +118,7 @@
         <div class="search-panel">
           <label class="search-box" for="searchInput">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input id="searchInput" type="search" placeholder="Ex.: geladeira, Samsung, TV, classificação A..." autocomplete="off">
+            <input id="searchInput" aria-label="Buscar no catálogo" type="search" placeholder="Ex.: geladeira, Samsung, TV, classificação A..." autocomplete="off">
             <button id="clearSearch" type="button" aria-label="Limpar busca"><i class="fa-solid fa-xmark"></i></button>
           </label>
           <div class="category-filters" id="categoryFilters" role="group" aria-label="Filtrar por categoria">
@@ -155,6 +136,26 @@
           <p>Tente buscar por outro nome ou selecionar outra categoria.</p>
           <button type="button" id="resetFilters">Ver todos os produtos</button>
         </div>
+      </div>
+    </section>
+
+    <section class="promo-mosaic">
+      <div class="container promo-mosaic-grid">
+        <article class="mosaic-card mosaic-main">
+          <div><span>SELEÇÃO ESPECIAL</span><h3>Produtos revisados com condições que valem a pena</h3><p>Veja fotos reais, classificação e condições antes de comprar.</p><a href="#produtos-area">Conferir produtos <i class="fa-solid fa-arrow-right"></i></a></div>
+          <i class="fa-solid fa-box-open mosaic-art"></i>
+        </article>
+        <article class="mosaic-card mosaic-pix"><div><span>PAGAMENTO</span><h3>Economize no PIX</h3><p>Consulte o melhor valor com nossa equipe.</p></div><i class="fa-brands fa-pix mosaic-art"></i></article>
+        <article class="mosaic-card mosaic-whats"><div><span>ATENDIMENTO</span><h3>Compra assistida</h3><p>Tire dúvidas e receba fotos pelo WhatsApp.</p></div><i class="fa-brands fa-whatsapp mosaic-art"></i></article>
+      </div>
+    </section>
+
+    <section class="trust-numbers">
+      <div class="container trust-grid">
+        <div><strong>Produtos reais</strong><span>Fotos e informações de cada item</span></div>
+        <div><strong>Classificação clara</strong><span>Você sabe o estado antes da compra</span></div>
+        <div><strong>Atendimento humano</strong><span>Negociação direta pelo WhatsApp</span></div>
+        <div><strong>Oportunidades únicas</strong><span>Estoque limitado e rotativo</span></div>
       </div>
     </section>
 
@@ -251,6 +252,8 @@
   <script>
     const API_URL = "/api/catalogo";
     const CARD_RATE = 1.15;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const scrollBehavior = () => reducedMotion.matches ? "instant" : "smooth";
     let activeCategory = "todos";
     let activeSearch = "";
 
@@ -269,6 +272,12 @@
     const promoNext = document.getElementById("promoNext");
     const promoDots = document.getElementById("promoDots");
     let promoTimer = null;
+    let promoUserPaused = false;
+    let promoHover = false;
+    let promoFocus = false;
+    let promoTouch = false;
+    let syncPromoMotion = () => {};
+    const promoToggle = document.getElementById("promoToggle");
 
     function normalizeText(value = "") {
       return value.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
@@ -289,6 +298,7 @@
       activeCategory = category;
       categoryFilters.querySelectorAll("button[data-category]").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.category === category);
+        btn.setAttribute("aria-pressed", String(btn.dataset.category === category));
       });
     }
 
@@ -416,12 +426,12 @@
         card.dataset.categoryNormalized = category.slug;
         card.dataset.categoryLabel = category.raw;
         card.classList.toggle("produto-promocao", promotion);
-        card.setAttribute("tabindex", "0");
+        card.removeAttribute("tabindex");
         ensureImageWrap(card, index, promotion);
         ensurePayment(card);
 
         const link = card.querySelector("a[href*='wa.me'], a[href*='whatsapp'], .whatsapp");
-        if (link) {
+        if (link && link.tagName === "A") {
           link.classList.add("product-cta");
           link.innerHTML = '<i class="fa-brands fa-whatsapp"></i><span>Comprar pelo WhatsApp</span>';
           link.target = "_blank";
@@ -473,19 +483,36 @@
         let target = promoCarousel.scrollLeft + direction * getStep();
         if (direction > 0 && promoCarousel.scrollLeft >= max - 8) target = 0;
         if (direction < 0 && promoCarousel.scrollLeft <= 8) target = max;
-        promoCarousel.scrollTo({ left: target, behavior: "smooth" });
+        promoCarousel.scrollTo({ left: target, behavior: scrollBehavior() });
       };
 
       promoPrev.onclick = () => move(-1);
       promoNext.onclick = () => move(1);
       promoCarousel.onscroll = updateDots;
 
-      if (promoTimer) clearInterval(promoTimer);
-      if (promotions.length > 1) {
-        promoTimer = setInterval(() => move(1), 4500);
-        promoSection.onmouseenter = () => clearInterval(promoTimer);
-        promoSection.onmouseleave = () => { promoTimer = setInterval(() => move(1), 4500); };
-      }
+      syncPromoMotion = () => {
+        if (promoTimer) clearInterval(promoTimer);
+        promoTimer = null;
+        promoToggle.hidden = promotions.length < 2 || reducedMotion.matches;
+        promoToggle.setAttribute("aria-pressed", String(promoUserPaused));
+        promoToggle.setAttribute("aria-label", promoUserPaused ? "Reproduzir rotação automática" : "Pausar rotação automática");
+        promoToggle.innerHTML = `<i class="fa-solid fa-${promoUserPaused ? "play" : "pause"}" aria-hidden="true"></i>`;
+        if (promotions.length > 1 && !promoUserPaused && !promoHover && !promoFocus && !promoTouch && !reducedMotion.matches && !document.hidden) {
+          promoTimer = setInterval(() => move(1), 4500);
+        }
+      };
+      promoToggle.onclick = () => { promoUserPaused = !promoUserPaused; syncPromoMotion(); };
+      promoSection.onmouseenter = () => { promoHover = true; syncPromoMotion(); };
+      promoSection.onmouseleave = () => { promoHover = false; syncPromoMotion(); };
+      promoSection.onfocusin = () => { promoFocus = true; syncPromoMotion(); };
+      promoSection.onfocusout = event => { promoFocus = promoSection.contains(event.relatedTarget); syncPromoMotion(); };
+      promoCarousel.onpointerdown = () => { promoTouch = true; syncPromoMotion(); };
+      promoCarousel.onpointerup = promoCarousel.onpointercancel = () => { promoTouch = false; syncPromoMotion(); };
+      promoCarousel.onkeydown = event => {
+        if (event.target !== promoCarousel || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault(); move(event.key === "ArrowRight" ? 1 : -1);
+      };
+      syncPromoMotion();
     }
 
     function buildCategoryFilters() {
@@ -537,6 +564,8 @@
       upgradeProductCards();
       buildPromoCarousel();
       buildCategoryFilters();
+      if (![...categoryFilters.querySelectorAll("button[data-category]")].some(btn => btn.dataset.category === activeCategory)) activeCategory = "todos";
+      setActiveCategory(activeCategory);
       applyFilters();
     }
     function recuperarCatalogoLocal() {
@@ -598,11 +627,17 @@
       if (hasSearch) setActiveCategory("todos");
       applyFilters();
 
-      if (source === "header" && hasSearch) {
-        document.getElementById("produtos-area").scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      // A busca atualiza imediatamente sem mover a tela a cada tecla.
+      // Enter leva aos resultados, preservando o controle de quem está digitando.
     }
 
+    headerSearchInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("produtos-area").scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+        searchInput.focus({ preventScroll: true });
+      }
+    });
     searchInput.addEventListener("input", event => updateSearch(event.target.value, "catalog"));
     headerSearchInput.addEventListener("input", event => updateSearch(event.target.value, "header"));
 
@@ -646,29 +681,32 @@
     });
 
 
+    const categoryQueries = ["todos", "geladeira", "lavadora", "fogao", "tv", "ar condicionado", "ferramenta"];
+    document.querySelectorAll(".category-bar-inner a").forEach((link, index) => link.dataset.categoryQuery = categoryQueries[index]);
+    document.querySelectorAll(".category-tile").forEach((link, index) => link.dataset.categoryQuery = categoryQueries[index + 1]);
     document.querySelectorAll(".category-bar-inner a, .category-tile").forEach(link => {
       link.addEventListener("click", () => {
-        const label = searchableText(link.textContent || "");
-        const candidates = [...categoryFilters.querySelectorAll("button[data-category]")];
-        const target = candidates.find(btn => {
-          const btnText = searchableText(btn.textContent || "");
-          return btnText && (label.includes(btnText) || btnText.includes(label));
+        const query = link.dataset.categoryQuery || "todos";
+        const target = [...categoryFilters.querySelectorAll("button[data-category]")].find(btn => {
+          if (query === "todos") return btn.dataset.category === "todos";
+          const label = searchableText(btn.textContent || "");
+          return label === query || label.includes(query);
         });
-        if (target) {
-          setActiveCategory(target.dataset.category);
-          activeSearch = "";
-          searchInput.value = "";
-          headerSearchInput.value = "";
-          clearSearch.classList.remove("visible");
-          headerClearSearch.classList.remove("visible");
-          applyFilters();
-        }
+        setActiveCategory(target ? target.dataset.category : "todos");
+        activeSearch = target || query === "todos" ? "" : query;
+        searchInput.value = headerSearchInput.value = activeSearch;
+        clearSearch.classList.toggle("visible", Boolean(activeSearch));
+        headerClearSearch.classList.toggle("visible", Boolean(activeSearch));
+        applyFilters();
       });
     });
+    reducedMotion.addEventListener("change", () => syncPromoMotion());
+    document.addEventListener("visibilitychange", () => syncPromoMotion());
+    window.addEventListener("pointerup", () => { if (promoTouch) { promoTouch = false; syncPromoMotion(); } });
 
     const backTop = document.getElementById("backTop");
     window.addEventListener("scroll", () => backTop.classList.toggle("show", window.scrollY > 700), { passive: true });
-    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: scrollBehavior() }));
 
     carregarProdutos();
 
