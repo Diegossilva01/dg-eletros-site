@@ -61,7 +61,41 @@ async function action(a,d,u){
       await log(u,'Venda',v._key,d.motivo);return {ok:true};
     }
     case 'dashboard':{
-      const vs=await sales(),today=date(),month=today.slice(0,7),h=vs.filter(v=>iso(v.data)===today),m=vs.filter(v=>iso(v.data).startsWith(month)),sum=(a,k)=>a.reduce((s,v)=>s+n(v[k]),0),faturamentoHoje=sum(h,'valor'),faturamentoMes=sum(m,'valor'),custoHoje=sum(h,'custoTotal'),custoMes=sum(m,'custoTotal');return {ok:true,faturamentoHoje,faturamentoMes,custoHoje,custoMes,lucroHoje:faturamentoHoje-custoHoje,lucroMes:faturamentoMes-custoMes,totalReceber:sum(vs,'saldo'),vendasMes:m.length,estoque:sum(await products(),'quantidade'),ultimasVendas:vs.slice(0,8)};
+      const [vs,ps]=await Promise.all([sales(),products()]);
+      const today=date(),month=today.slice(0,7);
+      const h=vs.filter(v=>iso(v.data)===today),m=vs.filter(v=>iso(v.data).startsWith(month));
+      const sum=(a,k)=>cents(a.reduce((s,v)=>s+n(v[k]),0));
+      const faturamentoHoje=sum(h,'valor'),faturamentoMes=sum(m,'valor'),custoHoje=sum(h,'custoTotal'),custoMes=sum(m,'custoTotal');
+      const itensEstoque=ps.filter(p=>n(p.quantidade)>0);
+      const estoque=sum(itensEstoque,'quantidade');
+      const custoEstoque=cents(itensEstoque.reduce((s,p)=>s+n(p.precoCusto)*n(p.quantidade),0));
+      const valorVendaEstoque=cents(itensEstoque.reduce((s,p)=>s+n(p.preco)*n(p.quantidade),0));
+      const lucroEstoque=cents(valorVendaEstoque-custoEstoque);
+      const margemEstoque=valorVendaEstoque?cents(lucroEstoque/valorVendaEstoque*100):0;
+      const ticketProdutos=estoque?cents(valorVendaEstoque/estoque):0;
+      const meses=new Map();
+      for(const v of vs){
+        const mes=iso(v.data).slice(0,7);
+        if(!/^\d{4}-\d{2}$/.test(mes))continue;
+        const item=meses.get(mes)||{mes,faturamento:0,vendas:0};
+        item.faturamento=cents(item.faturamento+n(v.valor));item.vendas++;
+        meses.set(mes,item);
+      }
+      const inicio=Array.from(meses.keys()).sort()[0];
+      const inicioMes=inicio&&inicio<month?inicio:month;
+      const historicoMensal=[];
+      const [anoInicio,mesInicio]=inicioMes.split('-').map(Number);
+      const [anoFim,mesFim]=month.split('-').map(Number);
+      for(let ano=anoInicio,mes=mesInicio;ano<anoFim||(ano===anoFim&&mes<=mesFim);){
+        const chave=String(ano)+'-'+String(mes).padStart(2,'0');
+        historicoMensal.push(meses.get(chave)||{mes:chave,faturamento:0,vendas:0});
+        if(++mes===13){mes=1;ano++}
+      }
+      return {ok:true,faturamentoHoje,faturamentoMes,custoHoje,custoMes,
+        lucroHoje:cents(faturamentoHoje-custoHoje),lucroMes:cents(faturamentoMes-custoMes),
+        totalReceber:sum(vs,'saldo'),vendasMes:m.length,estoque,
+        custoEstoque,valorVendaEstoque,lucroEstoque,margemEstoque,ticketProdutos,
+        historicoMensal,ultimasVendas:vs.slice(0,8)};
     }
     case 'listarContasReceber':{
       const vs=(await sales()).filter(v=>v.saldo>0.009),contas=vs.map(v=>{const recebimentos=v.recebimentos||[],ds=recebimentos.map(r=>iso(r.data)).filter(Boolean).sort(),last=ds.at(-1)||(v.entrada>0?iso(v.data):''),diasSemPagamento=last?Math.max(0,Math.floor((Date.now()-new Date(last+'T00:00:00Z').getTime())/86400000)):0;return {vendaId:v.id,cliente:v.cliente,documento:v.documento,telefone:v.telefone,produto:v.produto,valorVenda:v.valor,entrada:v.entrada,saldo:v.saldo,totalPago:cents(v.valor-v.saldo),quantidadePagamentos:recebimentos.length+(v.entrada>0?1:0),dataVenda:v.data,ultimoPagamento:last?fmt(last):'',diasSemPagamento,vendedora:v.vendedora,status:v.statusRecebimento,recebimentos}});contas.sort((a,b)=>b.diasSemPagamento-a.diasSemPagamento);return {ok:true,contas,totalReceber:cents(contas.reduce((s,c)=>s+c.saldo,0)),clientesPendentes:contas.length};
