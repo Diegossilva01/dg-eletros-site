@@ -170,7 +170,42 @@ const carregamentosPagina={dashboard:carregarDashboard,venda:carregarProdutos,ve
 const requisicoesPagina={};
 function carregarPagina(pagina){const fn=carregamentosPagina[pagina];if(!fn)return Promise.resolve();if(requisicoesPagina[pagina])return requisicoesPagina[pagina];const tarefa=Promise.resolve().then(fn).finally(()=>{delete requisicoesPagina[pagina]});requisicoesPagina[pagina]=tarefa;return tarefa}
 async function carregarTudo(){if(isRevendedor())return carregarPagina('revendedor');return carregarPagina($('.nav.active')?.dataset.page||'dashboard')}
-async function carregarDashboard(){try{const j=await api('dashboard');$('#fatHoje').textContent=money(j.faturamentoHoje);$('#fatMes').textContent=money(j.faturamentoMes);$('#vendasMes').textContent=j.vendasMes;$('#estoque').textContent=j.estoque;$('#custoMes').textContent=money(j.custoMes);$('#lucroMes').textContent=money(j.lucroMes);$('#dashboardReceber').textContent=money(j.totalReceber||0);$('#dashVendas').innerHTML=(j.ultimasVendas||[]).map(v=>`<tr><td>${esc(v.data)}</td><td>${esc(v.cliente)}</td><td>${esc(v.produto)}</td><td>${money(v.valor)}</td><td>${esc(v.vendedora)}</td></tr>`).join('')||'<tr><td colspan="5">Nenhuma venda.</td></tr>'}catch(e){console.error(e)}}
+function renderHistoricoMensal(itens){
+  const grafico=$('#graficoFaturamentoMensal'),resumo=$('#resumoFaturamentoMensal');
+  if(!grafico)return;
+  const dados=Array.isArray(itens)?itens:[];
+  const max=Math.max(1,...dados.map(x=>Number(x.faturamento)||0));
+  const total=dados.reduce((s,x)=>s+(Number(x.faturamento)||0),0);
+  if(resumo)resumo.textContent=money(total)+' no período';
+  grafico.innerHTML=dados.map(x=>{
+    const valor=Number(x.faturamento)||0;
+    const altura=valor>0?Math.max(4,Math.round(valor/max*100)):0;
+    const [ano,mes]=String(x.mes||'').split('-');
+    const nome=new Date(Number(ano),Number(mes)-1,1).toLocaleDateString('pt-BR',{month:'short'});
+    const rotulo=nome.replace('.','')+'/'+String(ano).slice(-2);
+    return `<div class="monthly-bar-item" title="${esc(rotulo)} • ${esc(money(valor))} • ${Number(x.vendas)||0} vendas"><span class="monthly-bar-value">${money(valor)}</span><div class="monthly-bar-track"><div class="monthly-bar-fill" style="height:${altura}%"></div></div><span class="monthly-bar-label">${esc(rotulo)}</span></div>`;
+  }).join('')||'<p>Nenhum histórico de vendas encontrado.</p>';
+  grafico.scrollLeft=grafico.scrollWidth;
+}
+async function carregarDashboard(){
+  try{
+    const j=await api('dashboard');
+    $('#fatHoje').textContent=money(j.faturamentoHoje);
+    $('#fatMes').textContent=money(j.faturamentoMes);
+    $('#vendasMes').textContent=j.vendasMes||0;
+    $('#estoque').textContent=j.estoque||0;
+    $('#custoMes').textContent=money(j.custoMes);
+    $('#lucroMes').textContent=money(j.lucroMes);
+    $('#dashboardReceber').textContent=money(j.totalReceber||0);
+    $('#custoEstoque').textContent=money(j.custoEstoque);
+    $('#valorVendaEstoque').textContent=money(j.valorVendaEstoque);
+    $('#lucroEstoque').textContent=money(j.lucroEstoque);
+    $('#margemEstoque').textContent=(Number(j.margemEstoque)||0).toLocaleString('pt-BR',{maximumFractionDigits:1,minimumFractionDigits:1})+'%';
+    $('#ticketProdutos').textContent=money(j.ticketProdutos);
+    renderHistoricoMensal(j.historicoMensal);
+    $('#dashVendas').innerHTML=(j.ultimasVendas||[]).map(v=>`<tr><td>${esc(v.data)}</td><td>${esc(v.cliente)}</td><td>${esc(v.produto)}</td><td>${money(v.valor)}</td><td>${esc(v.vendedora)}</td></tr>`).join('')||'<tr><td colspan="5">Nenhuma venda.</td></tr>';
+  }catch(e){console.error(e);const resumo=$('#resumoFaturamentoMensal');if(resumo)resumo.textContent='Não foi possível carregar os dados.'}
+}
 function promocaoAtiva(v){return ['sim','true','1','yes','x'].includes(String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase())}
 
 function atualizarResumoEstoque(produtos){
