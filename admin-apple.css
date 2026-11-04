@@ -1,0 +1,86 @@
+/* DG Eletros — Apple-inspired admin visual system. Layout only, no logic changes. */
+:root{--apple-bg:#f5f5f7;--apple-surface:#fff;--apple-text:#1d1d1f;--apple-muted:#6e6e73;--apple-line:rgba(0,0,0,.085);--apple-yellow:#f5b900;--apple-shadow:0 3px 16px rgba(30,30,40,.035)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.012em}
+.app{background:var(--apple-bg);color:var(--apple-text);grid-template-columns:254px minmax(0,1fr)}
+.app main{background:var(--apple-bg);min-width:0}
+.app aside{background:#141416;box-shadow:none!important;padding:29px 15px 20px;border-right:1px solid rgba(255,255,255,.07)}
+.app aside .brand{margin:5px 10px 19px;font-size:21px;letter-spacing:-.045em}
+.app aside .brand b{border-radius:7px 0 0 7px;padding:6px 9px}
+.app aside .brand span{border-radius:0 7px 7px 0;padding:6px 9px}
+.app aside nav{gap:5px;margin-top:24px}
+.app aside .nav,.app aside .logout{border-radius:12px;padding:12px 13px;font-size:13px;font-weight:600;letter-spacing:-.01em;transition:background .18s ease,color .18s ease,transform .18s ease}
+.app aside .nav{color:#bdbdc2}
+.app aside .nav i{width:29px;font-size:15px;opacity:.83}
+.app aside .nav:hover{background:rgba(255,255,255,.09);color:#fff}
+.app aside .nav.active,.app aside .nav.active:hover{background:var(--apple-yellow);color:#191919;box-shadow:0 3px 13px rgba(245,185,0,.13)}
+.app aside .logout{background:rgba(255,255,255,.06);color:#ededf0;margin-bottom:4px}
+.app aside .logout:hover{background:rgba(255,255,255,.13)}
+.app header{height:76px;padding:0 34px;background:rgba(255,255,255,.82)!important;border-bottom:1px solid var(--apple-line)!important;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%)}
+.app header .header-title strong{font-size:17px;font-weight:750;letter-spacing:-.035em;color:var(--apple-text)}
+.app header .header-title span{margin-top:4px;font-size:11px;color:var(--apple-muted)}
+.app .theme-toggle{border:1px solid var(--apple-line);border-radius:999px;padding:10px 14px;background:#fff;color:#333;box-shadow:var(--apple-shadow);font-weight:650}
+.app .theme-toggle:hover{transform:none;background:#f5f5f7}
+.app .page{max-width:1700px;margin:0 auto;padding:32px 36px 55px}
+.app .dashboard-intro{margin-bottom:24px}
+.app .dashboard-intro h1,.app .sale-hero h1,.app .finance-hero h1,.app .receivable-header h1{font-size:clamp(27px,3vw,37px)!important;letter-spacing:-.055em!important;font-weight:760;line-height:1.12}
+.app .dashboard-intro p{font-size:14px;color:var(--apple-muted)}
+.app .eyebrow{letter-spacing:.08em;font-size:10px;font-weight:800}
+.app .dashboard-status{border-radius:999px!important;padding:9px 14px!important;font-size:12px;box-shadow:none!important}
+.app .cards.dashboard-cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.app .metric-card{min-height:150px;padding:21px!important;background:var(--apple-surface)!important;border:1px solid var(--apple-line)!important;border-radius:19px!important;box-shadow:var(--apple-shadow)!important;gap:14px;transition:transform .2s ease,box-shadow .2s ease}
+.app .metric-card:hover{transform:translateY(-2px);box-shadow:0 10px 27px rgba(30,30,40,.07)!important}
+.app .metric-card:after{display:none!important}
+.app .metric-card .metric-icon{border-radius:12px!important;flex:none}
+.app .metric-card span{font-size:12px;line-height:1.35;font-weight:600;color:var(--apple-muted)}
+.app .metric-card strong{font-size:clamp(20px,1.9vw,27px)!important;line-height:1.18;letter-spacing:-.05em;margin-top:12px;font-weight:780;color:var(--apple-text)}
+.app .metric-card small{line-height:1.4;font-size:11px;margin-top:9px;color:#929299}
+.app .panel,.app .sale-card,.app .summary-card,.app .finance-panel,.app .overtime-register,.app .overtime-history{border-radius:20px!important;border:1px solid var(--apple-line)!important;background:var(--apple-surface)!important;box-shadow:var(--apple-shadow)!important}
+.app .panel h2{font-weight:740;letter-spacing:-.035em}
+.app .panel .head{gap:18px}
+.app .panel .head h2{margin-bottom:5px}
+.app .primary,.app .secondary,.app .finance-refresh,.app .table-action,.app .action-btn{border-radius:11px!important;font-weight:700;transition:filter .2s ease,background .2s ease,transform .2s ease}
+.app .primary{background:var(--apple-yellow);color:#171717;border:1px solid rgba(0,0,0,.04);box-shadow:none!important}
+.app .primary:hover,.app .secondary:hover{filter:brightness(.96);transform:translateY(-1px)}
+.app .secondary{background:#ededf0;color:#26262a}
+.app input:not([type=checkbox]):not([type=radio]),.app select,.app textarea{border-radius:11px;border:1px solid #d8d8de;min-height:43px;background:#fff;color:#1d1d1f;box-shadow:none;transition:border-color .15s,box-shadow .15s}
+.app input:focus,.app select:focus,.app textarea:focus{outline:none;border-color:#cf9c00;box-shadow:0 0 0 3px rgba(245,185,0,.16)}
+.app label{font-weight:650;color:#494950}
+.app .table-wrap{border-radius:14px;scrollbar-width:thin}
+.app table{border-collapse:separate;border-spacing:0}
+.app table:not(.monthly-table) thead th{background:#f7f7f9!important;color:#71717a!important;font-size:11px;font-weight:750;letter-spacing:.025em;text-transform:uppercase;padding:15px 14px;border-bottom:1px solid var(--apple-line)}
+.app table:not(.monthly-table) tbody td{padding:14px;border-bottom:1px solid rgba(0,0,0,.055);font-size:12px;line-height:1.5}
+.app table:not(.monthly-table) tbody tr:hover td{background:#fafafa}
+.app .pill{border-radius:999px;border:1px solid rgba(0,0,0,.055);font-size:10px}
+.app .produtos-panel{overflow:hidden}
+.app .produtos-head{background:#fff!important}
+.app .produtos-table tbody td{border-right:0}
+.app .produtos-table .preco-cell,.app .produtos-table .custo-cell,.app .produtos-table .lucro-cell,.app .produtos-table .margem-cell{background:transparent!important}
+.app .produtos-table .preco-col,.app .produtos-table .custo-col,.app .produtos-table .lucro-col,.app .produtos-table .margem-col{background:#f7f7f9!important}
+.app .produtos-table .lucro-cell.lucro-positivo,.app .produtos-table .margem-cell.margem-positiva,.app .produtos-table .lucro-cell.lucro-negativo,.app .produtos-table .margem-cell.margem-negativa{background:transparent!important}
+.app .monthly-chart-panel{border-radius:20px!important;overflow:hidden}
+.app .monthly-highlight{border-radius:15px}
+.app .monthly-bar-fill{border-radius:9px 9px 3px 3px}
+.app .monthly-table th{font-size:11px!important}
+.modal{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.modal-card{border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.19)}
+.app button:focus-visible,.modal button:focus-visible{outline:3px solid rgba(245,185,0,.7);outline-offset:2px}
+body.dark-theme{--apple-bg:#101113;--apple-surface:#1b1c1f;--apple-text:#f5f5f7;--apple-muted:#a1a1a8;--apple-line:rgba(255,255,255,.11);--apple-shadow:0 3px 18px rgba(0,0,0,.1)}
+body.dark-theme .app,body.dark-theme .app main{background:var(--apple-bg)!important;color:var(--apple-text)!important}
+body.dark-theme .app header{background:rgba(27,28,31,.85)!important}
+body.dark-theme .app header .header-title strong{color:#f5f5f7!important}
+body.dark-theme .app .metric-card,body.dark-theme .app .panel,body.dark-theme .app .sale-card,body.dark-theme .app .summary-card,body.dark-theme .app .finance-panel{background:#1b1c1f!important;border-color:var(--apple-line)!important;box-shadow:var(--apple-shadow)!important}
+body.dark-theme .app .metric-card strong{color:#fff!important}
+body.dark-theme .app .theme-toggle{background:#292a2d;color:#fff}
+body.dark-theme .app input:not([type=checkbox]):not([type=radio]),body.dark-theme .app select,body.dark-theme .app textarea{background:#242529;color:#f5f5f7;border-color:#424249}
+body.dark-theme .app label{color:#d1d1d6}
+body.dark-theme .app table:not(.monthly-table) thead th{background:#28292e!important;color:#aaaab2!important}
+body.dark-theme .app table:not(.monthly-table) tbody td{background:#1b1c1f!important;color:#e5e5e7!important;border-color:rgba(255,255,255,.07)}
+body.dark-theme .app .produtos-head{background:#1b1c1f!important}
+body.dark-theme .app .produtos-table tbody td{background:#1b1c1f!important}
+body.dark-theme .app .produtos-table .preco-col,body.dark-theme .app .produtos-table .custo-col,body.dark-theme .app .produtos-table .lucro-col,body.dark-theme .app .produtos-table .margem-col{background:#28292e!important}
+body.dark-theme .app .secondary{background:#333438;color:#fff}
+@media(max-width:1250px){.app .cards.dashboard-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.app .page{padding:27px}}
+@media(max-width:900px){.app{grid-template-columns:1fr}.app aside{position:fixed;left:-270px;width:254px;z-index:50;transition:left .22s ease}.app aside.open{left:0}.app header{padding:0 20px}.app .cards.dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.app .page{padding:22px 18px 42px}}
+@media(max-width:560px){.app header{height:66px;padding:0 14px}.app header .header-title strong{font-size:15px}.app .page{padding:18px 12px 36px}.app .cards.dashboard-cards{gap:10px}.app .metric-card{padding:15px!important;min-height:135px;flex-direction:column;gap:7px}.app .metric-card strong{font-size:20px!important;margin-top:6px;overflow-wrap:anywhere}.app .metric-card small{font-size:10px}.app .metric-card .metric-icon{width:34px;height:34px}.app .panel{border-radius:16px!important}.app .dashboard-intro h1{font-size:29px!important}.app .theme-toggle{padding:9px}.app .monthly-heading{padding:16px}}
+@media(max-width:360px){.app .cards.dashboard-cards{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.app *, .app *:before,.app *:after{transition:none!important;animation:none!important}}
