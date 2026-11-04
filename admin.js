@@ -171,20 +171,31 @@ const requisicoesPagina={};
 function carregarPagina(pagina){const fn=carregamentosPagina[pagina];if(!fn)return Promise.resolve();if(requisicoesPagina[pagina])return requisicoesPagina[pagina];const tarefa=Promise.resolve().then(fn).finally(()=>{delete requisicoesPagina[pagina]});requisicoesPagina[pagina]=tarefa;return tarefa}
 async function carregarTudo(){if(isRevendedor())return carregarPagina('revendedor');return carregarPagina($('.nav.active')?.dataset.page||'dashboard')}
 function renderHistoricoMensal(itens){
-  const grafico=$('#graficoFaturamentoMensal'),resumo=$('#resumoFaturamentoMensal');
-  if(!grafico)return;
-  const dados=Array.isArray(itens)?itens:[];
+  const grafico=$('#graficoFaturamentoMensal'),tabela=$('#tabelaFaturamentoMensal');
+  if(!grafico||!tabela)return;
+  const dados=(Array.isArray(itens)?itens:[]).filter(x=>/^\d{4}-\d{2}$/.test(String(x.mes||'')));
+  const dinheiro=valor=>money(Math.round((Number(valor)||0)*100)/100);
+  const legenda=mes=>{const [ano,numero]=mes.split('-').map(Number);return new Date(ano,numero-1,1).toLocaleDateString('pt-BR',{month:'short',year:'numeric'}).replace('.','')};
   const max=Math.max(1,...dados.map(x=>Number(x.faturamento)||0));
   const total=dados.reduce((s,x)=>s+(Number(x.faturamento)||0),0);
-  if(resumo)resumo.textContent=money(total)+' no período';
-  grafico.innerHTML=dados.map(x=>{
+  const media=dados.length?total/dados.length:0;
+  const melhor=dados.reduce((a,b)=>(!a||Number(b.faturamento)>Number(a.faturamento)?b:a),null);
+  $('#resumoFaturamentoMensal').textContent=dinheiro(total);
+  $('#mediaFaturamentoMensal').textContent=dinheiro(media);
+  $('#melhorMesFaturamento').textContent=melhor?legenda(melhor.mes):'—';
+  $('#melhorMesValor').textContent=melhor?dinheiro(melhor.faturamento):'Sem vendas registradas';
+  grafico.innerHTML=dados.map((x,i)=>{
     const valor=Number(x.faturamento)||0;
-    const altura=valor>0?Math.max(4,Math.round(valor/max*100)):0;
-    const [ano,mes]=String(x.mes||'').split('-');
-    const nome=new Date(Number(ano),Number(mes)-1,1).toLocaleDateString('pt-BR',{month:'short'});
-    const rotulo=nome.replace('.','')+'/'+String(ano).slice(-2);
-    return `<div class="monthly-bar-item" title="${esc(rotulo)} • ${esc(money(valor))} • ${Number(x.vendas)||0} vendas"><span class="monthly-bar-value">${money(valor)}</span><div class="monthly-bar-track"><div class="monthly-bar-fill" style="height:${altura}%"></div></div><span class="monthly-bar-label">${esc(rotulo)}</span></div>`;
-  }).join('')||'<p>Nenhum histórico de vendas encontrado.</p>';
+    const altura=valor>0?Math.max(3,valor/max*100):0;
+    const rotulo=legenda(x.mes);
+    const atual=i===dados.length-1;
+    return `<div class="monthly-bar-item${atual?' is-current':''}" title="${esc(rotulo)}: ${esc(dinheiro(valor))} • ${Number(x.vendas)||0} vendas">
+      <div class="monthly-bar-tooltip"><strong>${dinheiro(valor)}</strong><small>${Number(x.vendas)||0} vendas</small></div>
+      <div class="monthly-bar-track"><div class="monthly-bar-fill" style="height:${altura}%"></div></div>
+      <span class="monthly-bar-label">${esc(rotulo)}</span>
+    </div>`;
+  }).join('')||'<div class="monthly-empty">Ainda não existem vendas no histórico.</div>';
+  tabela.innerHTML=[...dados].reverse().map((x,i)=>`<tr><td><span class="monthly-month-dot"></span><strong>${esc(legenda(x.mes))}</strong>${i===0?'<span class="monthly-current-tag">Atual</span>':''}</td><td>${Number(x.vendas)||0} ${Number(x.vendas)===1?'venda':'vendas'}</td><td class="monthly-numeric"><strong>${dinheiro(x.faturamento)}</strong></td></tr>`).join('')||'<tr><td colspan="3" class="monthly-empty">Nenhum mês encontrado.</td></tr>';
   grafico.scrollLeft=grafico.scrollWidth;
 }
 async function carregarDashboard(){
