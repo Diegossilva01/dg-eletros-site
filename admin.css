@@ -387,3 +387,15 @@ body.dark-theme .overtime-register .head,body.dark-theme .overtime-history .head
 @media(max-width:600px){.commission-cards.employee-summary{grid-template-columns:1fr}}
 
 .session-check-card{width:min(440px,calc(100% - 32px));border-radius:20px;text-align:center;gap:20px}.session-check-card .brand{justify-content:center}.session-check-card p{margin:0}
+
+/* Histórico mensal do dashboard */
+.monthly-chart-panel{margin-top:24px;margin-bottom:24px}
+.monthly-chart-panel .head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.monthly-chart-total{font-size:15px;font-weight:800;white-space:nowrap}
+.monthly-chart-scroll{display:flex;gap:14px;align-items:flex-end;overflow-x:auto;min-height:260px;padding:28px 8px 12px;scrollbar-width:thin}
+.monthly-bar-item{flex:1 0 78px;min-width:78px;height:222px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:9px}
+.monthly-bar-value{font-size:11px;font-weight:700;white-space:nowrap}
+.monthly-bar-track{height:174px;width:100%;display:flex;align-items:flex-end;justify-content:center;border-bottom:1px solid var(--border,#dde1e8);background:linear-gradient(to top,rgba(120,120,120,.035),transparent);border-radius:8px 8px 0 0}
+.monthly-bar-fill{width:55%;max-width:50px;min-height:0;border-radius:8px 8px 0 0;background:linear-gradient(180deg,#f5c542,#e89b00);transition:height .3s ease}
+.monthly-bar-label{font-size:12px;font-weight:700;white-space:nowrap}
+@media(max-width:700px){.monthly-chart-scroll{gap:9px}.monthly-bar-item{min-width:70px;flex-basis:70px}.monthly-chart-total{font-size:13px}}
